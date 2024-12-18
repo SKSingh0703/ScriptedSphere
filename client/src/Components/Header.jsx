@@ -1,12 +1,18 @@
 
-import {  Button, Navbar, TextInput } from "flowbite-react";
+import {  Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link,useLocation } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { MdDarkMode } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 export default function Header() {
     const path=useLocation().pathname;
+    const {currentUser} = useSelector(state => state.user);
+    console.log(currentUser.profilePicture);
+    console.log(currentUser);
     
+    
+
   return (
     <Navbar className="relative z-50 bg-transparent ">
         <Link to="/" className="flex gap-2 self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white">
@@ -33,7 +39,32 @@ export default function Header() {
             <Button className="w-12 h-10 hidden sm:inline " color="gray">
                 <MdDarkMode />
             </Button>
-            <Link to="/sign-in">
+            {currentUser ? (
+                <>
+                {/* <h1>{currentUser.profilePicture}</h1>
+                <img src={currentUser.profilePicture} alt="bb" crossOrigin="anonymous"/> */}
+                <Link to="/sign-up">
+                <Button className="bg-black text-white" gradientDuoTone="white">
+                    DashBoard
+                </Button>
+            </Link>
+                <Dropdown arrowIcon={false} inline label={
+                    <Avatar  alt="user" img={currentUser.profilePicture} rounded onError={(e) => e.target.src = "../../public/profile.png"} />
+                    
+                } >
+                   <Dropdown.Header>
+                    <span className="block text-sm ">@{currentUser.username}</span>
+                    <span className="block text-sm font-medium truncate">@{currentUser.email}</span>
+                    </Dropdown.Header>
+                    <Link to={'/dashboard?tab=profile'}>
+                        <Dropdown.Item>Profile</Dropdown.Item>
+                    </Link>
+                    <Dropdown.Divider />
+                    <Dropdown.Item>SignOut</Dropdown.Item>
+                </Dropdown>
+                </>
+            ): (<>
+                <Link to="/sign-in">
                 <Button className="background-none hidden sm:inline" gradientDuoTone="none">
                     Log In
                 </Button>
@@ -43,6 +74,8 @@ export default function Header() {
                     Sign Up
                 </Button>
             </Link>
+            </>
+            )}
             <Navbar.Toggle />
         </div>
         <Navbar.Collapse className="">
