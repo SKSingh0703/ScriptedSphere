@@ -2,6 +2,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { SiWelcometothejungle } from "react-icons/si";
 
 export default function SignUp() {
 
@@ -58,7 +59,10 @@ export default function SignUp() {
 
         {/* Right Section: Form */}
         <div className="w-full md:w-1/2 px-6 py-10">
-          <h1 className="text-2xl font-bold text-center mb-6">Welcome back!</h1>
+        <div className="flex justify-center  ">
+          <h1 className="text-2xl font-bold text-center mb-6">Welcome  </h1>
+          <SiWelcometothejungle className='mt-3 ml-2' />
+          </div>
           <p className="text-sm text-center text-gray-500 mb-8">
             Please enter your details
           </p>
