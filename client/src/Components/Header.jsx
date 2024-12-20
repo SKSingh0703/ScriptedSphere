@@ -10,8 +10,6 @@ import { toggleTheme } from "../redux/theme/themeSlice";
 export default function Header() {
     const path=useLocation().pathname;
     const {currentUser} = useSelector(state => state.user);
-    console.log(currentUser.profilePicture);
-    console.log(currentUser);
     
     const dispatch = useDispatch();
     const {theme} = useSelector(state=> state.theme );
@@ -44,9 +42,7 @@ export default function Header() {
             </Button>
             {currentUser ? (
                 <>
-                {/* <h1>{currentUser.profilePicture}</h1>
-                <img src={currentUser.profilePicture} alt="bb" crossOrigin="anonymous"/> */}
-                <Link to="/sign-up">
+                <Link to="/dashboard">
                 <Button className="bg-black text-white" gradientDuoTone="white">
                     DashBoard
                 </Button>
