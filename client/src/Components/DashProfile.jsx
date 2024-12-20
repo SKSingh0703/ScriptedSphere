@@ -40,9 +40,12 @@ export default function DashProfile() {
 
   const uploadImage = async ()=>{
     setImageFileUploadError(null);
+
     const storage = getStorage(app2);
     const fileName = new Date().getTime() + imageFile.name;
+
     const storageRef = ref(storage,fileName);
+
     const uploadTask = uploadBytesResumable(storageRef,imageFile);
     uploadTask.on(
       'state_changed',
@@ -59,6 +62,7 @@ export default function DashProfile() {
       ()=>{
         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
           setImageFileUrl(downloadUrl);
+          setImageFileUploadingProgress(null);
         })
       }
     )
