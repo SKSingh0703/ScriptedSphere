@@ -2,8 +2,10 @@
 import {  Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
 import { Link,useLocation } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
-import { MdDarkMode } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { MdDarkMode, } from "react-icons/md";
+import { FaSun } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleTheme } from "../redux/theme/themeSlice";
 
 export default function Header() {
     const path=useLocation().pathname;
@@ -11,7 +13,8 @@ export default function Header() {
     console.log(currentUser.profilePicture);
     console.log(currentUser);
     
-    
+    const dispatch = useDispatch();
+    const {theme} = useSelector(state=> state.theme );
 
   return (
     <Navbar className="relative z-50 bg-transparent ">
@@ -36,8 +39,8 @@ export default function Header() {
             <CiSearch />
         </Button>
         <div className="flex gap-2 md:order-2">
-            <Button className="w-12 h-10 hidden sm:inline " color="gray">
-                <MdDarkMode />
+            <Button className="w-12 h-10 hidden sm:inline " color="gray" onClick={() => dispatch(toggleTheme())}>
+                {theme==='light' ? <FaSun /> : <MdDarkMode /> }  
             </Button>
             {currentUser ? (
                 <>
