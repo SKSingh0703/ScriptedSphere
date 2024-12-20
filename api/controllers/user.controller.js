@@ -46,7 +46,29 @@ export const updateUser = async (req,res,next) => {
 
         } catch (error) {
             next(error);
-        }
-    
+        }   
+}
 
+export const deleteUser =async (req,res,next)  =>{
+    const {userId} = req.params;
+
+    try {
+        if (!userId) {
+            return next(errorHandler(400,'User id required'));
+        }
+        const user =await User.findById(userId);
+        if(!user){
+            return next(errorHandler(404,'No user found!!!'));
+        }
+        if(req.user.id!==userId){
+            return next(errorHandler(403,'You can only delete your own accound .'));
+        }
+        await User.findByIdAndDelete(userId);
+        
+        res.status(200).json("User has been deleted");
+        
+    } catch (error) {
+        next(error
+        )
+    }
 }
