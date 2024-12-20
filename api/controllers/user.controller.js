@@ -6,10 +6,7 @@ export  const test = (req,res)=>{
     res.json({message :"API is working"});
 };
 
-export const updateUser = async (req,res,next) => {
-
-    console.log(req.user);
-    
+export const updateUser = async (req,res,next) => {    
 
     if(req.user.id !== req.params.userId){
         return next(errorHandler(403,"You are not allowed to update this user !!!"));
@@ -30,6 +27,7 @@ export const updateUser = async (req,res,next) => {
         if(!req.user.username.match(/^[a-zA-Z0-9]+$/)){
             return next(errorHandler(400, "Username can only contain letters or numbers"));
         }
+    }
         try {
             const updatedUser = await User.findByIdAndUpdate(req.params.userId,{
                 $set:{
@@ -39,15 +37,16 @@ export const updateUser = async (req,res,next) => {
                     password:req.body.password
                 },
             },{new : true});
-            console.log(updatedUser);
             
             const {password , ...rest} = updatedUser._doc;
+            // console.log(rest);
+            
 
             res.status(200).json(rest);
 
         } catch (error) {
             next(error);
         }
-    }
+    
 
 }
