@@ -25,7 +25,7 @@ export default function DashSidebar() {
                         Profile
                     </Sidebar.Item>
                 </Link>
-                <Sidebar.Item active icon={HiArrowSmRight} className='cursor-pointer' >
+                <Sidebar.Item active={tab==='signout'} icon={HiArrowSmRight} className='cursor-pointer' >
                     Sign Out
                 </Sidebar.Item>
             </Sidebar.ItemGroup>
