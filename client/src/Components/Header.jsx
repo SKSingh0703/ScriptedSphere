@@ -6,6 +6,7 @@ import { MdDarkMode, } from "react-icons/md";
 import { FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTheme } from "../redux/theme/themeSlice";
+import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice";
 
 export default function Header() {
     const path=useLocation().pathname;
@@ -13,6 +14,25 @@ export default function Header() {
     
     const dispatch = useDispatch();
     const {theme} = useSelector(state=> state.theme );
+
+    const handleSignOut = async () => {
+        try {
+          dispatch(signOutUserStart());
+          const res = await fetch('api/user/signout',{
+            method:"POST"
+          });
+          const data= await res.json();
+          if(!res.ok){
+            dispatch(signOutUserFailure(data.message));
+          }
+          else{
+            dispatch(signOutUserSuccess());
+          }
+        } catch (error) {
+          console.log(error);
+          dispatch(signOutUserFailure(error));
+        }
+      }
 
   return (
     <Navbar className="relative z-50 bg-transparent ">
@@ -59,7 +79,7 @@ export default function Header() {
                         <Dropdown.Item>Profile</Dropdown.Item>
                     </Link>
                     <Dropdown.Divider />
-                    <Dropdown.Item>SignOut</Dropdown.Item>
+                    <Dropdown.Item onClick={handleSignOut} >SignOut</Dropdown.Item>
                 </Dropdown>
                 </>
             ): (<>
