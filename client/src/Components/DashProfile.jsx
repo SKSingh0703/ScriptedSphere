@@ -9,10 +9,10 @@ import 'react-circular-progressbar/dist/styles.css';
 
 import { updateUserStart,updateUserSuccess,updateUserFailure,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserSuccess, signOutUserFailure, signOutUserStart } from "../redux/user/userSlice";
 import { BsExclamationCircle } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function DashProfile() {
-  const {currentUser,error} = useSelector((state)=>state.user);
+  const {currentUser,error,loading} = useSelector((state)=>state.user);
   const [imageFileUrl,setImageFileUrl] = useState(null);
 
   const [imageFile,setImageFile] = useState(null);
@@ -176,7 +176,7 @@ export default function DashProfile() {
   
 
   return (
-    <div className="max-w-lg mx-auto p-3 w-full">
+    <div className="max-w-lg mx-auto p-3 w-full bg-y">
       <h1 className="my-7 text-center font-semibold text-3xl">Profile</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 " >
 
@@ -184,7 +184,11 @@ export default function DashProfile() {
         
 
         <div className="relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full ">
-          <img src={imageFileUrl || currentUser.profilePicture || "../../public/profile.png"} alt="Profile Pic" className = {`rounded-full h-full border-8 border-[lightgray] object-cover  ${imageFileUploadingProgress && imageFileUploadingProgress<100 && "opacity-60" } `}  />
+          <img src={imageFileUrl || currentUser.profilePicture || "../../public/profile.png"} 
+            alt="Profile Pic" 
+            className = {`rounded-full h-full border-8 border-[lightgray] object-cover  ${imageFileUploadingProgress && imageFileUploadingProgress<100 && "opacity-60" } `}  
+            onError={(e) => e.currentTarget.src = "../../public/profile.png"}
+            />
           {imageFileUploadingProgress && (
             <CircularProgressbar value={imageFileUploadingProgress || 0} text={`${imageFileUploadingProgress}` } 
               styles={{
@@ -212,7 +216,18 @@ export default function DashProfile() {
       ) }
         <TextInput onChange={handleChange} type="text" id="username" placeholder="Username" defaultValue={currentUser.username} />
         <TextInput onChange={handleChange} type="text" id="email" placeholder="Username" defaultValue={currentUser.email} />
-        <Button  type="submit" gradientDuoTone="prupleToBlue"  >Update</Button>
+        <Button  type="submit"  outline className="bg-slate-950" disabled={loading || imageFileUploadingProgress} >
+          {loading ? 'Loading...' : 'Update'}
+        </Button>
+
+        {
+          currentUser.isAdmin && ( <Link to={'/create-post'} >
+            <Button type="button" gradientDuoTone="purpleToPink" className="w-full " >
+              Create a question ?
+            </Button>
+            </Link>
+          )
+        }
       </form>
 
       <div className="text-red-500 flex justify-between mt-5 ">

@@ -2,32 +2,36 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
     username:{
-        type:"String",
+        type:String,
         required:true,
         unique:true,
     },
     email:{
-        type:"String",
+        type:String,
         required:true,
         unique:true,
     },
     password:{
-        type:"String",
+        type:String,
         required:true,
     },
     firstname:{
-        type:"String",
+        type:String,
     },
     lastname:{
-        type:"String",
+        type:String,
     },
     about:{
-        type:"String",
+        type:String,
     },
     profilePicture:{
         type:String,
         default:"../../public/profile.png"
-    }
+    },
+    isAdmin:{
+        type:Boolean,
+        default:false,
+    },
 
 },{timestamps:true});
 
