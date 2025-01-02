@@ -3,11 +3,14 @@ import { useLocation } from 'react-router-dom';
 import DashSidebar from '../Components/DashSidebar';
 import DashProfile from '../Components/DashProfile';
 import DashPost from '../Components/DashPost';
+import DasUsers from '../Components/DasUsers';
+import { useSelector } from 'react-redux';
 
 export default function DashBoard() {
 
   const location = useLocation();
   const [tab,setTab] = useState('');
+  const {currentUser} = useSelector((state)=>state.user);
 
   useEffect(()=>{
     const urlParams = new URLSearchParams(location.search);
@@ -34,6 +37,13 @@ export default function DashBoard() {
     {tab === 'posts' && (
       <div className="w-full">
         <DashPost />
+      </div>
+    )}
+
+    {/* Users */}
+    {currentUser.isAdmin && tab === 'users' && (
+      <div className="w-full">
+        <DasUsers />
       </div>
     )}
     </div>

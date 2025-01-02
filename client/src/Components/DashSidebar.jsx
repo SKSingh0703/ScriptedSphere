@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { BsExclamationCircle } from "react-icons/bs";
+import { FaUsers } from "react-icons/fa";
 
 export default function DashSidebar() {
 
@@ -57,6 +58,11 @@ export default function DashSidebar() {
                         DSA Sheet
                     </Sidebar.Item >
                 </Link>
+                {currentUser.isAdmin &&  (<Link to='/dashboard?tab=users'>
+                    <Sidebar.Item as='div' active={tab==='users'} icon={FaUsers}  labelColor='dark' >
+                        All users
+                    </Sidebar.Item >
+                </Link>)}
                 <Sidebar.Item onClick={()=>setShowModal(true)} active={tab==='signout'} icon={HiArrowSmRight} className='cursor-pointer' >
                     Sign Out
                 </Sidebar.Item>

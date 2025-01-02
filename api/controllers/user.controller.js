@@ -57,10 +57,11 @@ export const deleteUser =async (req,res,next)  =>{
             return next(errorHandler(400,'User id required'));
         }
         const user =await User.findById(userId);
+        
         if(!user){
             return next(errorHandler(404,'No user found!!!'));
         }
-        if(req.user.id!==userId){
+        if(req.user.id!==userId && !req.user.isAdmin){
             return next(errorHandler(403,'You can only delete your own accound .'));
         }
         await User.findByIdAndDelete(userId);
