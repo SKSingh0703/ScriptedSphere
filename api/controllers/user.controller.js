@@ -79,3 +79,33 @@ export const signOutUser = async (req,res,next) => {
         next(error);
     }
 }
+
+export const getUsers = async (req,res,next)=>{
+    if(!req.user.isAdmin){
+        return next(errorHandler(403,"Unauthorized"));
+    }
+    try {
+        // const startIndex = parseInt(req.query.startIndex) || 0;
+        // const limit = parseInt(req.query.limit)
+        const users = await User.find();
+
+        // const userWithoutPassword = users.map((user) => {
+        //     const {password,...rest} = user._doc;
+        // });
+        const totalUsers = await User.countDocuments();
+
+        const oneMonthAgo = new Date();
+        oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+            
+        const lastMonthUsers = await User.countDocuments({
+            createdAt:{$gte:oneMonthAgo},
+        })
+        res.status(200).json({
+            users,
+            totalUsers,lastMonthUsers
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}

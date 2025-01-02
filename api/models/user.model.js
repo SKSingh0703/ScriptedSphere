@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
+    // questions:{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Post',
+    // }
 
 },{timestamps:true});
 
