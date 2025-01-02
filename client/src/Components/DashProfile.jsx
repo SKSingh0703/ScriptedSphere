@@ -27,6 +27,7 @@ export default function DashProfile() {
   const [updateUserError,setUpdateUserError] = useState(null);
 
   const [showModal , setShowModal] = useState(false);
+  const [showModalSign , setShowModalSign] = useState(false);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -232,7 +233,7 @@ export default function DashProfile() {
 
       <div className="text-red-500 flex justify-between mt-5 ">
         <span onClick={()=>setShowModal(true)} className="cursor-pointer" >Delete Account</span>
-        <span onClick={handleSignOut} className="cursor-pointer" >Sign Out</span>
+        <span onClick={()=>setShowModalSign(true)} className="cursor-pointer" >Sign Out</span>
       </div>
       {uploadSuccess && (
         <Alert color="success" className="mt-5">
@@ -260,6 +261,24 @@ export default function DashProfile() {
                 Yes,I am sure
               </Button>
               <Button onClick={()=>setShowModal(false)} color="gray" >
+                No,cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+    </Modal>
+
+    <Modal show={showModalSign} onClose={()=>setShowModalSign(false)} popup size="md">
+      <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <BsExclamationCircle className="h-14 w-14 text-red-500 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400 " >Are you sure you want to sign out?</h3>
+            <div className="flex justify-center gap-4">
+              <Button color="faliure" onClick={handleSignOut}>
+                Yes,I am sure
+              </Button>
+              <Button onClick={()=>setShowModalSign(false)} color="gray" >
                 No,cancel
               </Button>
             </div>

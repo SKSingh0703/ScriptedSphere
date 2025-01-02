@@ -1,16 +1,20 @@
-import { Sidebar } from "flowbite-react";
+import { Button, Modal, Sidebar } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { HiArrowSmRight, HiDocumentText, HiUser } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { BsExclamationCircle } from "react-icons/bs";
 
 export default function DashSidebar() {
 
   const location = useLocation();
   const [tab,setTab] = useState('');
   const dispatch = useDispatch();
+  const {currentUser} = useSelector((state)=>state.user);
+
+  const [showModal,setShowModal] = useState(false);
 
   useEffect(()=>{
     const urlParams = new URLSearchParams(location.search);
@@ -42,17 +46,40 @@ export default function DashSidebar() {
   return (
     <Sidebar className="w-full md:w-56" >
         <Sidebar.Items>
-            <Sidebar.ItemGroup>
+            <Sidebar.ItemGroup className="flex flex-col gap-1">
                 <Link to='/dashboard?tab=profile' >
-                    <Sidebar.Item as='div' active={tab==='profile'} icon={HiUser} label={"User"} labelColor='dark' >
+                    <Sidebar.Item as='div' active={tab==='profile'} icon={HiUser} label={currentUser.isAdmin?"Admin":"User"} labelColor='dark' >
                         Profile
                     </Sidebar.Item >
                 </Link>
-                <Sidebar.Item onClick={handleSignOut} active={tab==='signout'} icon={HiArrowSmRight} className='cursor-pointer' >
+                <Link to='/dashboard?tab=posts'>
+                    <Sidebar.Item as='div' active={tab==='posts'} icon={HiDocumentText}  labelColor='dark' >
+                        DSA Sheet
+                    </Sidebar.Item >
+                </Link>
+                <Sidebar.Item onClick={()=>setShowModal(true)} active={tab==='signout'} icon={HiArrowSmRight} className='cursor-pointer' >
                     Sign Out
                 </Sidebar.Item>
             </Sidebar.ItemGroup>
         </Sidebar.Items>
+        <Modal show={showModal} onClose={()=>setShowModal(false)} popup size="md">
+      <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <BsExclamationCircle className="h-14 w-14 text-red-500 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400 " >Are you sure you want to sign out?</h3>
+            <div className="flex justify-center gap-4">
+              <Button color="faliure" onClick={handleSignOut}>
+                Yes,I am sure
+              </Button>
+              <Button onClick={()=>setShowModal(false)} color="gray" >
+                No,cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+    </Modal>
+
     </Sidebar>
   )
 }

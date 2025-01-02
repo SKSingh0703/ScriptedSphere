@@ -2,10 +2,8 @@ import { Alert, Button, Select, TextInput } from "flowbite-react";
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
-  const navigate = useNavigate();
 
   const initialFormData = {
     topic: "",
