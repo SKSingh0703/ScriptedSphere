@@ -20,17 +20,22 @@ export default function DashBoard() {
   return (
     <div className='min-h-screen flex flex-col md:flex-row'>
       {/* Sidebar */}
-      <div className="md:w-52">
+      <div className="md:w-52 ">
         <DashSidebar />
       </div>
-      {/* profile  */}
+      {/* Profile */}
+    {tab === 'profile' && (
       <div className="w-full">
-        {tab==='profile' && <DashProfile />}
+        <DashProfile />
       </div>
-      {/* posts  */}
+    )}
+
+    {/* Posts */}
+    {tab === 'posts' && (
       <div className="w-full">
-        {tab==='posts' && <DashPost />}
+        <DashPost />
       </div>
+    )}
     </div>
   )
 }

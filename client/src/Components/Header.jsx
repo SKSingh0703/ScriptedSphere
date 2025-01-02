@@ -72,8 +72,8 @@ export default function Header() {
                     
                 } >
                    <Dropdown.Header>
-                    <span className="block text-sm ">@{currentUser.username}</span>
-                    <span className="block text-sm font-medium truncate">@{currentUser.email}</span>
+                    {/* <span className="block text-sm ">@{currentUser.username}</span> */}
+                    <span className="block text-sm font-medium truncate">Email : {currentUser.email}</span>
                     </Dropdown.Header>
                     <Link to={'/dashboard?tab=profile'}>
                         <Dropdown.Item>Profile</Dropdown.Item>
@@ -105,7 +105,7 @@ export default function Header() {
                 <Link  to="/about">About</Link>
             </Navbar.Link>
             <Navbar.Link active={path==='/project'} as={'div'}>
-                <Link  to="/projects">Projects</Link>
+                <Link  to="/dashboard?tab=posts">DSA Sheet</Link>
             </Navbar.Link>
         </Navbar.Collapse>
     </Navbar>
