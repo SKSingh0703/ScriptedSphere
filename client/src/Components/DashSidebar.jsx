@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BsExclamationCircle } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
+import { FaRankingStar } from "react-icons/fa6";
 
 export default function DashSidebar() {
 
@@ -16,9 +17,10 @@ export default function DashSidebar() {
   const dispatch = useDispatch();
   const {currentUser} = useSelector((state)=>state.user);
 
-  const [showModal,setShowModal] = useState(false);
+  const [showModal,setShowModal] = useState(false);  
 
   useEffect(()=>{
+    
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get('tab');
     
@@ -58,6 +60,11 @@ export default function DashSidebar() {
                 <Link to='/dashboard?tab=profile' >
                     <Sidebar.Item as='div' active={tab==='profile'} icon={HiUser} >
                         Edit Profile
+                    </Sidebar.Item >
+                </Link>
+                <Link to='/contests' >
+                    <Sidebar.Item as='div' active={tab===''} icon={FaRankingStar}  >
+                        Contests
                     </Sidebar.Item >
                 </Link>
                 <Link to='/dashboard?tab=posts'>
