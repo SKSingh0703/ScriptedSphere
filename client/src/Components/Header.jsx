@@ -1,7 +1,7 @@
 
-import {  Avatar, Button, Dropdown, Navbar, TextInput } from "flowbite-react";
+import {  Avatar, Button, Dropdown, Navbar } from "flowbite-react";
 import { Link,useLocation } from "react-router-dom";
-import { CiSearch } from "react-icons/ci";
+// import { CiSearch } from "react-icons/ci";
 import { MdDarkMode, } from "react-icons/md";
 import { FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -45,24 +45,14 @@ export default function Header() {
             <span>Sphere</span>
             </div>
         </Link>
-        <form >
-            <TextInput 
-                type="text"
-                placeholder="Search..."
-                rightIcon={CiSearch}
-                className="hidden lg:inline"
-            />
-        </form>
-        <Button className="w-12 h-10 lg:hidden" color="gray"> 
-            <CiSearch />
-        </Button>
+        
         <div className="flex gap-2 md:order-2">
             <Button className="w-12 h-10 hidden sm:inline " color="gray" onClick={() => dispatch(toggleTheme())}>
                 {theme==='light' ? <FaSun /> : <MdDarkMode /> }  
             </Button>
             {currentUser ? (
                 <>
-                <Link to="/dashboard">
+                <Link to="/dashboard?tab=dash">
                 <Button className="bg-black text-white" gradientDuoTone="white">
                     DashBoard
                 </Button>
@@ -106,6 +96,9 @@ export default function Header() {
             </Navbar.Link>
             <Navbar.Link active={path==='/project'} as={'div'}>
                 <Link  to="/dashboard?tab=posts">DSA Sheet</Link>
+            </Navbar.Link>
+            <Navbar.Link active={path==='/project'} as={'div'}>
+                <Link  to="/contests">Contests</Link>
             </Navbar.Link>
         </Navbar.Collapse>
     </Navbar>

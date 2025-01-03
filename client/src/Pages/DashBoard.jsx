@@ -5,6 +5,7 @@ import DashProfile from '../Components/DashProfile';
 import DashPost from '../Components/DashPost';
 import DasUsers from '../Components/DasUsers';
 import { useSelector } from 'react-redux';
+import DashHero from '../Components/DashHero';
 
 export default function DashBoard() {
 
@@ -46,6 +47,12 @@ export default function DashBoard() {
         <DasUsers />
       </div>
     )}
+
+    {tab === 'dash' && (
+      <div className="w-full  bg-slate-100 text-black dark:bg-slate-900 dark:text-white">
+        <DashHero />
+      </div>
+    )}
     </div>
-  )
+  ) 
 }

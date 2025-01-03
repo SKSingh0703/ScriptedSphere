@@ -15,7 +15,9 @@ export default {
     extend: {},
   },
   plugins: [
-    plugin(),
+    plugin({
+      charts:true,
+    }),
     scrollbar,
     scrollbarHide,
   ],

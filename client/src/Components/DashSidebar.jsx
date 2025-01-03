@@ -7,6 +7,7 @@ import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../red
 import { useDispatch, useSelector } from "react-redux";
 import { BsExclamationCircle } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
+import { MdDashboard } from "react-icons/md";
 
 export default function DashSidebar() {
 
@@ -48,9 +49,15 @@ export default function DashSidebar() {
     <Sidebar className="w-full md:w-56" >
         <Sidebar.Items>
             <Sidebar.ItemGroup className="flex flex-col gap-1">
+                <Link to='/dashboard?tab=dash' >
+                    <Sidebar.Item as='div' active={tab==='dash'} icon={MdDashboard} label={currentUser.isAdmin?"Admin":"User"} labelColor='dark' >
+                        DashBoard
+                    </Sidebar.Item >
+                </Link>
+
                 <Link to='/dashboard?tab=profile' >
-                    <Sidebar.Item as='div' active={tab==='profile'} icon={HiUser} label={currentUser.isAdmin?"Admin":"User"} labelColor='dark' >
-                        Profile
+                    <Sidebar.Item as='div' active={tab==='profile'} icon={HiUser} >
+                        Edit Profile
                     </Sidebar.Item >
                 </Link>
                 <Link to='/dashboard?tab=posts'>

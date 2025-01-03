@@ -11,6 +11,7 @@ import Projects from './Pages/Projects'
 import PrivateRoute from './Components/PrivateRoute'
 import OnlyAdmin from './Components/OnlyAdminPrivateRoute'
 import CreatePost from './Pages/CreatePost'
+import Contest from './Pages/Contest'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path='/about' element={<About />} />
         <Route path='/sign-in' element={<SignIn />} />
         <Route path='/sign-up' element={<SignUp />} />
+        <Route path='/contests' element={<Contest />} />
         <Route element={<PrivateRoute />}>
           <Route path='/dashboard' element={<DashBoard />} />
         </Route>
