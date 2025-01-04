@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import DashSidebar from '../Components/DashSidebar';
-import DashProfile from '../Components/DashProfile';
+import DashProfile from '../Components/Profile/DashProfile';
 import DashPost from '../Components/DashPost';
 import DasUsers from '../Components/DasUsers';
 import { useSelector } from 'react-redux';

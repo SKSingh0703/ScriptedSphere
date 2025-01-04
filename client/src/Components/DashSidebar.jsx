@@ -48,7 +48,7 @@ export default function DashSidebar() {
   }
 
   return (
-    <Sidebar className="w-full md:w-56" >
+    <Sidebar className="w-full md:w-56 " >
         <Sidebar.Items>
             <Sidebar.ItemGroup className="flex flex-col gap-1">
                 <Link to='/dashboard?tab=dash' >
@@ -57,7 +57,7 @@ export default function DashSidebar() {
                     </Sidebar.Item >
                 </Link>
 
-                <Link to='/dashboard?tab=profile' >
+                <Link to='/dashboard?tab=profile&tabProfile=basicInfo' >
                     <Sidebar.Item as='div' active={tab==='profile'} icon={HiUser} >
                         Edit Profile
                     </Sidebar.Item >
