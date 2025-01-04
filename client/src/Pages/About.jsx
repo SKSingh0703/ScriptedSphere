@@ -66,7 +66,7 @@ const AboutSection = () => {
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-800 dark:text-white">About Me</h1>
             <p className="mt-4 text-gray-600 dark:text-gray-300 leading-relaxed">
-              Hi, I'm Sachin Kumar Singh, a second-year B.Tech student at BIT Mesra, Ranchi. I specialize in creating robust web applications
+              Hi, I am Sachin Kumar Singh, a second-year B.Tech student at BIT Mesra, Ranchi. I specialize in creating robust web applications
               using modern technologies. My goal is to build impactful solutions that make a difference.
             </p>
           </div>

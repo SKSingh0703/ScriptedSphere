@@ -62,7 +62,7 @@ export default function DashSidebar() {
                         Edit Profile
                     </Sidebar.Item >
                 </Link>
-                <Link to='/contests' >
+                <Link to='/dashboard?tab=contests' >
                     <Sidebar.Item as='div' active={tab===''} icon={FaRankingStar}  >
                         Contests
                     </Sidebar.Item >

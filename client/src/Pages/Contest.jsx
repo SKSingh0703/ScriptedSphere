@@ -28,14 +28,14 @@ export default function Contest() {
     },[]);
 
     return (
-        <div className="bg-gray-100 dark:bg-slate-900 min-h-screen py-6 px-4 md:px-10 lg:px-20 scrollbar-hide">
+        <div className="bg-gray-100  dark:bg-slate-900 min-h-screen py-6 px-4 md:px-10 lg:px-20 scrollbar-hide">
           {/* Page Header */}
-          <div className="w-full md:w-[80%] lg:w-[70%] mx-auto rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500  dark:to-blue-900 text-center text-white font-semibold text-2xl py-5 shadow-lg">
+          <div className="w-full md:w-[80%] lg:w-[70%] mx-auto rounded-lg bg-gradient-to-r from-blue-500 to-indigo-500   dark:to-blue-900 text-center text-white font-semibold text-2xl py-5 shadow-lg">
             {contests.length === 0 ? "Fetching Data ..." : "Upcoming Contests"}
           </div>
           
           {/* Contests Container */}
-          <div className="w-full md:w-[80%] lg:w-[70%] mx-auto mt-6 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 flex flex-col gap-4 overflow-y-auto scrollbar-hide max-h-[80vh]">
+          <div className="w-full  md:w-[80%] lg:w-[70%] mx-auto mt-6 bg-white dark:bg-slate-700 rounded-lg shadow-md p-4 flex flex-col gap-4 overflow-y-auto scrollbar-hide max-h-[80vh]">
             {contests.map((contest, index) => (
               <ContestCard contest={contest} key={index} />
             ))}

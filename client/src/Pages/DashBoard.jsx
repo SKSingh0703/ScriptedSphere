@@ -6,6 +6,7 @@ import DashPost from '../Components/DashPost';
 import DasUsers from '../Components/DasUsers';
 import { useSelector } from 'react-redux';
 import DashHero from '../Components/DashHero';
+import Contest from './Contest';
 
 export default function DashBoard() {
 
@@ -31,6 +32,11 @@ export default function DashBoard() {
     {tab === 'profile' && (
       <div className="w-full">
         <DashProfile />
+      </div>
+    )}
+    {tab === 'contests' && (
+      <div className="w-full">
+        <Contest />
       </div>
     )}
 

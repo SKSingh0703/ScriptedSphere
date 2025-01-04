@@ -98,7 +98,7 @@ export default function Header() {
                 <Link  to="/dashboard?tab=posts">DSA Sheet</Link>
             </Navbar.Link>
             <Navbar.Link active={path==='/project'} as={'div'}>
-                <Link  to="/contests">Contests</Link>
+                <Link  to="/dashboard?tab=contests">Contests</Link>
             </Navbar.Link>
         </Navbar.Collapse>
     </Navbar>
