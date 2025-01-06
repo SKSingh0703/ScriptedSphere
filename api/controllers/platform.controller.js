@@ -26,6 +26,10 @@ const  leetcodeData = async (req) => {
     });
     if(response.ok){
         const data = await response.json();
+        const topics =await postSkillStats(username);
+        const totalContests = await postContestStats(username);
+        data.topics = topics || [];
+        data.totalContests = totalContests || 0;
         return data;
     }
     else{
@@ -38,6 +42,150 @@ const  leetcodeData = async (req) => {
     return;
   }
 };
+
+async function postSkillStats(username) {
+  const url = "https://leetcode.com/graphql"; // Replace with actual GraphQL endpoint
+  const query = `
+    query skillStats($username: String!) {
+      matchedUser(username: $username) {
+        tagProblemCounts {
+          advanced {
+            tagName
+            tagSlug
+            problemsSolved
+          }
+          intermediate {
+            tagName
+            tagSlug
+            problemsSolved
+          }
+          fundamental {
+            tagName
+            tagSlug
+            problemsSolved
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    username: username
+  };
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer YOUR_ACCESS_TOKEN", // If authentication is needed
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        query: query,
+        variables: variables
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Data received:", data);
+
+      // Extract advanced, intermediate, and fundamental topics
+      const advancedTopics = data?.data?.matchedUser?.tagProblemCounts?.advanced || [];
+      const intermediateTopics = data?.data?.matchedUser?.tagProblemCounts?.intermediate || [];
+      const fundamentalTopics = data?.data?.matchedUser?.tagProblemCounts?.fundamental || [];
+
+      // Combine all topics into a single array
+      const allTopics = [
+        ...advancedTopics,
+        ...intermediateTopics,
+        ...fundamentalTopics
+      ];
+
+      // Map them to the desired format
+      const topics = allTopics.map(topic => ({
+        topic: topic.tagName,
+        count: topic.problemsSolved
+      }));
+
+      return topics;
+      console.log(topics);
+      
+    } else {
+      console.error("Error:", data.errors);
+      return null;
+    }
+  } catch (error) {
+    console.error("Request failed:", error);
+  }
+}
+
+async function postContestStats(username) {
+  const url = "https://leetcode.com/graphql"; // Replace with actual GraphQL endpoint
+  const query = `
+    query userContestRankingInfo($username: String!) {
+  userContestRanking(username: $username) {
+    attendedContestsCount
+    rating
+    globalRanking
+    totalParticipants
+    topPercentage
+    badge {
+      name
+    }
+  }
+  userContestRankingHistory(username: $username) {
+    attended
+    trendDirection
+    problemsSolved
+    totalProblems
+    finishTimeInSeconds
+    rating
+    ranking
+    contest {
+      title
+      startTime
+    }
+  }
+}
+  `;
+
+  const variables = {
+    username: username
+  };
+
+  const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer YOUR_ACCESS_TOKEN", // If authentication is needed
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify({
+        query: query,
+        variables: variables
+      })
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      const totalContests = data.data.userContestRanking.attendedContestsCount;
+      return totalContests;
+      
+    } else {
+      console.error("Error:", data.errors);
+      return null;
+    }
+  } catch (error) {
+    console.error("Request failed:", error);
+  }
+}
 
 
 async function codeforcesTotal(req) {
@@ -274,6 +422,10 @@ const geekforgeeksData = async (req) => {
       data.medium += leetcodeData.find((stat) => stat.difficulty === "Medium")?.count || 0;
       data.hard += leetcodeData.find((stat) => stat.difficulty === "Hard")?.count || 0;
       data.totalActiveDays += allData.leetcode.data.matchedUser.userCalendar.totalActiveDays;
+      allData.leetcode.topics.forEach((tag) => {
+        data.topics.push({ topic: tag.topic, count: tag.count });
+      });
+      data.totalContests+=allData.leetcode.totalContests;
     }
 
     // Codeforces Data Aggregation
@@ -286,8 +438,16 @@ const geekforgeeksData = async (req) => {
       data.totalActiveDays += allData.codeforcesTotal.totalActiveDays;
 
       // Aggregating tags/topics
+      // allData.codeforcesTotal.tags.forEach((tag) => {
+      //   data.topics.push({ topic: tag.topic, count: tag.count });
+      // });
       allData.codeforcesTotal.tags.forEach((tag) => {
-        data.topics.push({ topic: tag.topic, count: tag.count });
+        const existingTopic = data.topics.find((t) => t.topic === tag.topic);
+        if (existingTopic) {
+          existingTopic.count += tag.count; // Add counts if topic already exists
+        } else {
+          data.topics.push({ topic: tag.topic, count: tag.count });
+        }
       });
     }
 
@@ -302,12 +462,10 @@ const geekforgeeksData = async (req) => {
       data.totalQuestions += parseInt(allData.geekforgeeks.problemsSolved) || 0;
     }
 
-    console.log(data);
+    // console.log(data);
     
       
       res.status(200).json(data);
-      
-  
     } catch (error) {
       return next(error);
     }
