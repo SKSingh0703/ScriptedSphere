@@ -1,20 +1,18 @@
-import { Alert, Button, Modal, TextInput } from "flowbite-react";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux"
-import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
-import { app2 } from "../../firebase";
+// import { Alert, Button, Modal, TextInput } from "flowbite-react";
+// import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+// import { useDispatch, useSelector } from "react-redux"
+// import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
+// import { app2 } from "../../firebase";
 
-import { CircularProgressbar } from 'react-circular-progressbar';
+// import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-import { updateUserStart,updateUserSuccess,updateUserFailure,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserSuccess, signOutUserFailure, signOutUserStart } from "../../redux/user/userSlice";
-import { BsExclamationCircle } from "react-icons/bs";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import DashSidebar from "../DashSidebar";
-import Contest from "../../Pages/Contest";
-import DashPost from "../DashPost";
-import DasUsers from "../DasUsers";
-import DashHero from "../DashHero";
+// import { updateUserStart,updateUserSuccess,updateUserFailure,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserSuccess, signOutUserFailure, signOutUserStart } from "../../redux/user/userSlice";
+// import { BsExclamationCircle } from "react-icons/bs";
+// import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
 import ProfileSidebar from "./ProfileSidebar";
 import BasicInfo from "./BasicInfo";
 import Socials from "./Socials";
@@ -22,25 +20,25 @@ import Platforms from "./Platforms";
 import College from "./College";
 
 export default function DashProfile() {
-  const {currentUser,error,loading} = useSelector((state)=>state.user);
-  const [imageFileUrl,setImageFileUrl] = useState(null);
+  // const {currentUser,error,loading} = useSelector((state)=>state.user);
+  // const [imageFileUrl,setImageFileUrl] = useState(null);
 
-  const [imageFile,setImageFile] = useState(null);
-  const filePickerRef = useRef();
+  // const [imageFile,setImageFile] = useState(null);
+  // const filePickerRef = useRef();
 
-  const [imageFileUploadingProgress,setImageFileUploadingProgress] = useState(null);
-  const [imageFIleUploadError,setImageFileUploadError]= useState(null);
+  // const [imageFileUploadingProgress,setImageFileUploadingProgress] = useState(null);
+  // const [imageFIleUploadError,setImageFileUploadError]= useState(null);
 
-  const [formdata,setFormData] = useState({});
-  const [imageUpladSuccess , setImageUpladSuccess] = useState(false);
-  const [uploadSuccess , setUploadSuccess] = useState(null);
-  const [updateUserError,setUpdateUserError] = useState(null);
+  // const [formdata,setFormData] = useState({});
+  // const [imageUpladSuccess , setImageUpladSuccess] = useState(false);
+  // const [uploadSuccess , setUploadSuccess] = useState(null);
+  // const [updateUserError,setUpdateUserError] = useState(null);
 
-  const [showModal , setShowModal] = useState(false);
-  const [showModalSign , setShowModalSign] = useState(false);
-  const navigate = useNavigate();
+  // const [showModal , setShowModal] = useState(false);
+  // const [showModalSign , setShowModalSign] = useState(false);
+  // const navigate = useNavigate();
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const location = useLocation();
   const [tab,setTab] = useState('');
@@ -54,148 +52,148 @@ export default function DashProfile() {
 
   },[location.search]);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if(file){
-      setImageFile(file);
-      setImageFileUrl(URL.createObjectURL(file));
-    }
-  };
-  useEffect(() => {
-    if(imageFile){
-      uploadImage();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[imageFile]);  
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if(file){
+  //     setImageFile(file);
+  //     setImageFileUrl(URL.createObjectURL(file));
+  //   }
+  // };
+  // useEffect(() => {
+  //   if(imageFile){
+  //     uploadImage();
+  //   }
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // },[imageFile]);  
   
 
-  const uploadImage = async ()=>{
-    setImageFileUploadError(null);
+  // const uploadImage = async ()=>{
+  //   setImageFileUploadError(null);
 
-    const storage = getStorage(app2);
-    const fileName = new Date().getTime() + imageFile.name;
+  //   const storage = getStorage(app2);
+  //   const fileName = new Date().getTime() + imageFile.name;
 
-    const storageRef = ref(storage,fileName);
+  //   const storageRef = ref(storage,fileName);
 
-    const uploadTask = uploadBytesResumable(storageRef,imageFile);
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred /snapshot.totalBytes) *100;
-        setImageFileUploadingProgress(progress.toFixed(0));
-      },
-      (error) => {
-        console.log(error);
-        setImageFileUrl(null);
-        setImageFileUploadingProgress(null);
-        setImageFileUploadError("Could not upload image (File must be less than 2mb) ");
-      },
-      ()=>{
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-          setImageFileUrl(downloadUrl);
-          setImageFileUploadingProgress(null);
-          setFormData({...formdata,profilePicture:downloadUrl});
-          setImageUpladSuccess(true);
-          setTimeout(()=>{
-            setImageUpladSuccess(false);
-          },5000);
-        })
-      }
-    )
-  }
+  //   const uploadTask = uploadBytesResumable(storageRef,imageFile);
+  //   uploadTask.on(
+  //     'state_changed',
+  //     (snapshot) => {
+  //       const progress = (snapshot.bytesTransferred /snapshot.totalBytes) *100;
+  //       setImageFileUploadingProgress(progress.toFixed(0));
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //       setImageFileUrl(null);
+  //       setImageFileUploadingProgress(null);
+  //       setImageFileUploadError("Could not upload image (File must be less than 2mb) ");
+  //     },
+  //     ()=>{
+  //       getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+  //         setImageFileUrl(downloadUrl);
+  //         setImageFileUploadingProgress(null);
+  //         setFormData({...formdata,profilePicture:downloadUrl});
+  //         setImageUpladSuccess(true);
+  //         setTimeout(()=>{
+  //           setImageUpladSuccess(false);
+  //         },5000);
+  //       })
+  //     }
+  //   )
+  // }
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formdata,
-      [e.target.id]:e.target.value,
-    });
-  }
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formdata,
+  //     [e.target.id]:e.target.value,
+  //   });
+  // }
 
-  const handleSubmit =async (e) => {
-    e.preventDefault();
-    setUpdateUserError(null);
-    if(Object.keys(formdata).length===0){
-      setUpdateUserError("No chages Made");
-      setTimeout(()=>{
-        setUpdateUserError(null);
-      },5000);
-      return;
-    }
-    if(imageFileUploadingProgress){
-      setUpdateUserError("Please wait for image to upload");
-      setTimeout(()=>{
-        setUpdateUserError(null);
-      },5000);
-      return;
-    }
-    try {
-     dispatch( updateUserStart());
-     const res = await fetch(`/api/user/update/${currentUser._id}`,{
-        method:'PUT',
-        headers:{'Content-Type' : 'application/json'},
-        body:JSON.stringify(formdata),
-     })
-     const data = await res.json();
-     if(!res.ok){
-        setUpdateUserError(data.message);
-        setTimeout(()=>{
-          setUpdateUserError(null);
-        },5000);
-        dispatch(updateUserFailure());
-     }
-     else{
-      dispatch(updateUserSuccess(data));
-      setUploadSuccess("User's profile updated successfully !!!");
-      setTimeout(()=>{
-        setUploadSuccess(null);
-      },5000);
-     }
-     dispatch(updateUserEnd());
-    } catch (error) {
-      dispatch(updateUserFailure(error));
-      dispatch(updateUserEnd());
-    }
-  }
+  // const handleSubmit =async (e) => {
+  //   e.preventDefault();
+  //   setUpdateUserError(null);
+  //   if(Object.keys(formdata).length===0){
+  //     setUpdateUserError("No chages Made");
+  //     setTimeout(()=>{
+  //       setUpdateUserError(null);
+  //     },5000);
+  //     return;
+  //   }
+  //   if(imageFileUploadingProgress){
+  //     setUpdateUserError("Please wait for image to upload");
+  //     setTimeout(()=>{
+  //       setUpdateUserError(null);
+  //     },5000);
+  //     return;
+  //   }
+  //   try {
+  //    dispatch( updateUserStart());
+  //    const res = await fetch(`/api/user/update/${currentUser._id}`,{
+  //       method:'PUT',
+  //       headers:{'Content-Type' : 'application/json'},
+  //       body:JSON.stringify(formdata),
+  //    })
+  //    const data = await res.json();
+  //    if(!res.ok){
+  //       setUpdateUserError(data.message);
+  //       setTimeout(()=>{
+  //         setUpdateUserError(null);
+  //       },5000);
+  //       dispatch(updateUserFailure());
+  //    }
+  //    else{
+  //     dispatch(updateUserSuccess(data));
+  //     setUploadSuccess("User's profile updated successfully !!!");
+  //     setTimeout(()=>{
+  //       setUploadSuccess(null);
+  //     },5000);
+  //    }
+  //    dispatch(updateUserEnd());
+  //   } catch (error) {
+  //     dispatch(updateUserFailure(error));
+  //     dispatch(updateUserEnd());
+  //   }
+  // }
 
-  const handleDeleteUser = async ()=>{
-    setShowModal(false);
-    try {
-      dispatch(deleteUserStart());
-      const res = await fetch(`api/user/delete/${currentUser._id}`,{
-        method:"DELETE"
-      });
-      const data = await res.json();
-      if(!res.ok){
-        dispatch(deleteUserFailure(data.message));
-      }
-      else{
-        dispatch(deleteUserSuccess());
-        navigate('/sign-up');
-      }
+  // const handleDeleteUser = async ()=>{
+  //   setShowModal(false);
+  //   try {
+  //     dispatch(deleteUserStart());
+  //     const res = await fetch(`api/user/delete/${currentUser._id}`,{
+  //       method:"DELETE"
+  //     });
+  //     const data = await res.json();
+  //     if(!res.ok){
+  //       dispatch(deleteUserFailure(data.message));
+  //     }
+  //     else{
+  //       dispatch(deleteUserSuccess());
+  //       navigate('/sign-up');
+  //     }
       
-    } catch (error) {
-      dispatch(deleteUserFailure(error));
-    }
-  }
+  //   } catch (error) {
+  //     dispatch(deleteUserFailure(error));
+  //   }
+  // }
 
-  const handleSignOut = async () => {
-    try {
-      dispatch(signOutUserStart());
-      const res = await fetch('api/user/signout',{
-        method:"POST"
-      });
-      const data= await res.json();
-      if(!res.ok){
-        dispatch(signOutUserFailure(data.message));
-      }
-      else{
-        dispatch(signOutUserSuccess());
-      }
-    } catch (error) {
-      console.log(error);
-      dispatch(signOutUserFailure(error));
-    }
-  }
+  // const handleSignOut = async () => {
+  //   try {
+  //     dispatch(signOutUserStart());
+  //     const res = await fetch('api/user/signout',{
+  //       method:"POST"
+  //     });
+  //     const data= await res.json();
+  //     if(!res.ok){
+  //       dispatch(signOutUserFailure(data.message));
+  //     }
+  //     else{
+  //       dispatch(signOutUserSuccess());
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     dispatch(signOutUserFailure(error));
+  //   }
+  // }
   
 
   return (

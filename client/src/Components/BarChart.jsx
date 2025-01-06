@@ -118,7 +118,7 @@ const BarChart = () => {
       <ApexCharts options={options} series={options.series} type="bar" height={400} />
       <button 
         onClick={() => setShowMore(!showMore)} 
-        className="p-2 bg-blue-500 text-white rounded mx-44  "
+        className="p-2 bg-blue-500 text-white rounded "
       >
         {showMore ? "Show Less" : "Show More"}
       </button>

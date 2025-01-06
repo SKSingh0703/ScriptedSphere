@@ -15,9 +15,10 @@ export default function DashPost() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await fetch(`/api/post/getposts?userId=${currentUser._id}`);
-        const data = await res.json();
+        const res = await fetch(`/api/post/getposts`);
+        // console.log(res);
         if (res.ok) {
+          const data = await res.json();
           setUserPosts(data.posts);
           if(data.length <= 9){
             setShowMore(false);

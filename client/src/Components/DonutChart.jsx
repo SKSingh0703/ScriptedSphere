@@ -7,7 +7,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 // Custom Plugin to Draw Center Text
 
-export default function DonutChart() {
+export default function DonutChart({easy,medium,hard,totalQuestions}) {
     
     const centerTextPlugin = {
         id: "centerText",

@@ -43,7 +43,7 @@ export default function Profile() {
           <span>
             <FaLocationDot className=" " />{" "}
           </span>
-          <span>&nbsp; {currentUser.location || "Location"} </span>
+          <span>&nbsp; {currentUser.country || "Location"} </span>
         </div>
         <div className="flex h-12 rounded-lg flex-wrap justify-center items-center overflow-hidden bg-slate-200 dark:bg-slate-700">
           <span>
@@ -65,7 +65,7 @@ export default function Profile() {
               <FaLinkedinIn className="mr-2" />
             </span>
             <span className="truncate">
-              {currentUser.linkedIn || "LinkedIn"}
+              {currentUser.linkedin || "LinkedIn"}
             </span>
           </div>
         </a>

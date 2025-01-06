@@ -71,12 +71,12 @@ export default function FooterCom() {
         </div>
         <Footer.Divider />
         <div className="w-full sm:flex sm: items-center sm: justify-between ">
-            <Footer.Copyright href="#" by="Sachin Kumar" year={new Date().getFullYear()} />
+            <Footer.Copyright href="https://www.linkedin.com/in/sachin-kumar-90884117a/" by="Sachin Kumar" year={new Date().getFullYear()} />
             <div className="icons flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-                <Footer.Icon href="#" icon={FaFacebook} />
-                <Footer.Icon href="#" icon={FaInstagram} />
-                <Footer.Icon href="#" icon={FaGithub} />
-                <Footer.Icon href="#" icon={FaLinkedin} />
+                <Footer.Icon href="https://www.linkedin.com/in/sachin-kumar-90884117a/" icon={FaFacebook} />
+                <Footer.Icon href="https://www.linkedin.com/in/sachin-kumar-90884117a/" icon={FaInstagram} />
+                <Footer.Icon href="https://www.linkedin.com/in/sachin-kumar-90884117a/" icon={FaGithub} />
+                <Footer.Icon href="https://www.linkedin.com/in/sachin-kumar-90884117a/" icon={FaLinkedin} />
             </div>
         </div>
       </div>

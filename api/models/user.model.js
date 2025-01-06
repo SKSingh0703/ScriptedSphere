@@ -32,6 +32,54 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
+    firstname:{
+        type:String,
+    },
+    lastname:{
+        type:String,
+    },
+    bio:{
+        type:String,
+    },
+    country:{
+        type:String,
+    },
+    college:{
+        type:String,
+    },
+    degree:{
+        type:String,
+    },
+    branch:{
+        type:String,
+    },
+    yearOfGraduation:{
+        type:String,
+    },
+    linkedin:{
+        type:String,
+    },
+    github:{
+        type:String,
+    },
+    instagram:{
+        type:String,
+    },
+    resume:{
+        type:String,
+    },
+    leetcode:{
+        type:String,
+    },
+    codeforces:{
+        type:String,
+    },
+    codechef:{
+        type:String,
+    },
+    geekforgeeks:{
+        type:String,
+    },
     // questions:{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Post',
