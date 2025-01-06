@@ -10,6 +10,7 @@ export default function DashHero() {
   const {currentUser} = useSelector((state)=>state.user);
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState(null);
+  const [dataLoaded, setDataLoaded] = useState(false);
   const navigate = useNavigate();
 
   const [data,setData] = useState({});
@@ -21,11 +22,15 @@ export default function DashHero() {
     const fetchData =async ()=>{
       setLoading(true);
       setError(null);
+      
       const res = await fetch(`/api/code/platformData/${currentUser._id}`);
       if(res.ok){
         const data = await res.json();
+        console.log(data);
+        setDataLoaded(true);
         setData(data);
       }
+
       else{
         setError("Something went wrong");
       }
@@ -76,12 +81,12 @@ export default function DashHero() {
           <div className="ps flex flex-col mt-14 md:mt-0 md:flex-row h-[75vh] p-5 gap-3">
             <div className="bg-white border flex-1 dark:bg-gray-800 dark:border-black">
               <div className="chart">
-                <DonutChart  
+                {dataLoaded && <DonutChart  
                   easy={data.easy} 
                   medium={data.medium} 
                   hard={data.hard} 
                   totalQuestions={data.totalQuestions} 
-                />
+                />}
               </div>
               <div className="text-center flex flex-col gap-2 mt-4">
                 <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
@@ -100,7 +105,7 @@ export default function DashHero() {
             </div>
             <div className="flex-1 flex-col text-center gap-3 bg-white border dark:bg-gray-800 dark:border-black hidden md:flex">
                 <h1 className="font-semibold mt-3">DSA Topic wise AnaLysis</h1>
-              <BarChart topics={data.topics}  />
+              { dataLoaded && <BarChart topics={data.topics}  />}
             </div>
           </div>
         </div>

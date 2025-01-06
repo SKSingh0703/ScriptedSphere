@@ -1,22 +1,22 @@
 import { useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 
-const BarChart = () => {
+const BarChart = ({topics=[]}) => {
   const [showMore, setShowMore] = useState(false);
 
-  const topics = [
-    { name: "Arrays", count: 100 },
-    { name: "Linked Lists", count: 34 },
-    { name: "Stacks", count: 9 },
-    { name: "Queues", count: 45 },
-    { name: "Graphs", count: 44 },
-    { name: "Trees", count: 17 },
-    { name: "Sorting", count: 77 },
-    { name: "Searching", count: 120 },
-    { name: "Dynamic Programming", count: 90 },
-    { name: "Backtracking", count: 30 },
-    // Add more topics here
-  ];
+  // const topics = [
+  //   { name: "Arrays", count: 100 },
+  //   { name: "Linked Lists", count: 34 },
+  //   { name: "Stacks", count: 9 },
+  //   { name: "Queues", count: 45 },
+  //   { name: "Graphs", count: 44 },
+  //   { name: "Trees", count: 17 },
+  //   { name: "Sorting", count: 77 },
+  //   { name: "Searching", count: 120 },
+  //   { name: "Dynamic Programming", count: 90 },
+  //   { name: "Backtracking", count: 30 },
+  //   // Add more topics here
+  // ];
 
   const visibleTopics = showMore ? topics : topics.slice(0, 7); // Show top 7 topics initially
 
@@ -83,7 +83,7 @@ const BarChart = () => {
           cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
         },
       },
-      categories: visibleTopics.map(topic => topic.name), // Use names of visible topics
+      categories: visibleTopics.map(topic => topic.topic), // Use names of visible topics
       axisTicks: {
         show: false,
       },

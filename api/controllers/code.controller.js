@@ -12,3 +12,4 @@ export const getContests = async (req,res,next) =>{
         next(error);
     }
 }
+
