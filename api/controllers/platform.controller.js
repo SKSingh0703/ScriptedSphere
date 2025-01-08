@@ -31,7 +31,7 @@ const  leetcodeData = async (req) => {
         data.topics = topics || [];
         data.totalContests = totalContest.totalContests || 0;
         data.rankingHistory = totalContest.rankingHistory || [];
-
+        data.contestRating = totalContest.contestRating || 0;
         return data;
     }
     else{
@@ -113,7 +113,6 @@ async function postSkillStats(username) {
       }));
 
       return topics;
-      console.log(topics);
       
     } else {
       console.error("Error:", data.errors);
@@ -174,9 +173,10 @@ async function postContestStats(username) {
     });
 
     const data = await response.json();
-
+    const rating = Math.floor(data.data.userContestRanking.rating);
     if (response.ok) {
       const da = {
+        contestRating:rating,
         totalContests : data.data.userContestRanking.attendedContestsCount,
         rankingHistory : data.data.userContestRankingHistory
       };
@@ -190,13 +190,41 @@ async function postContestStats(username) {
     console.error("Request failed:", error);
   }
 }
+async function codeforcesContestHistory(handle){
+  
+  const apiUrl = `https://codeforces.com/api/user.rating?handle=${handle}`;
+  try {
+    const response = await axios.get(apiUrl);
+    const data = response.data;
 
+    if (data.status !== "OK") {
+        console.log("Codeforces1 error ");
+        return;
+    }
+    // console.log(data.result);
+
+    const ratingData = data.result.map(item => ({
+      contestId: item.contestId,
+      rating: Math.round(item.newRating), // Convert rating to integer
+      rank: item.rank,
+      date: new Date(item.date * 1000).toLocaleDateString() // Convert date from Unix timestamp
+    }));
+
+    return ratingData;
+
+    
+  }catch (error) {
+    console.log("CF 1 error");
+    return;
+}
+}
 
 async function codeforcesTotal(req) {
     if (!req.user.codeforces) {
         console.log("Codeforces 1 url not found");
         return;
     }
+    
 
     const handle = req.user.codeforces.split("/").filter(Boolean).pop();
     const apiUrl = `https://codeforces.com/api/user.status?handle=${handle}`;
@@ -204,11 +232,18 @@ async function codeforcesTotal(req) {
         const response = await axios.get(apiUrl);
         const data = response.data;
 
+        // const res = await axios.get(`https://codeforces.com/api/user.rating?handle=tourist`);
+        // const d = res.data;
+
         if (data.status !== "OK") {
             // console.log(data.comment);
             console.log("Codeforces1 error ");
             return;
         }
+        // if( d.status !== "OK"){
+        //   console.log("Codeforces fff  1 error ");
+        //   return;
+        // }
 
         const submissions = data.result;
 
@@ -266,13 +301,16 @@ async function codeforcesTotal(req) {
         const totalSolved = easy + medium + hard;
     
         const tagsArray = Object.entries(tagCount).map(([topic, count]) => ({ topic, count }));
-
+        const history =await codeforcesContestHistory(handle);
+        
         const result = {
             totalSolved: solvedProblems.size,
             contestsAttended: contestsAttended.size,
             tags: tagsArray,
             totalActiveDays: activeDays.size,
-            easy,medium,hard,totalSolved
+            easy,medium,hard,totalSolved,
+            contestRating:data.result.rating,
+            rankingHistory:history
         };
 
         return result;
@@ -354,7 +392,7 @@ const codechefData = async (req) => {
 };
 
 const geekforgeeksData = async (req) => {
-    console.log(req.user.geekforgeeks);
+    
     
     if(!req.user.geekforgeeks){
         console.log("Geekforgeeks url not found");
@@ -390,7 +428,6 @@ const geekforgeeksData = async (req) => {
   const getAllData = async (req, res, next) => {
     try {
       let allData = {};
-      console.log(req.user);
       
   
       const leetcodeResult = await leetcodeData(req);
@@ -403,15 +440,14 @@ const geekforgeeksData = async (req) => {
       allData.codeforcesTotal = codeforcesTotalResult;
   
       const codechefResult = await codechefData(req);
-      console.log(codechefResult);
+      
       
       allData.codechef = codechefResult;
   
       const geekforgeeksResult = await geekforgeeksData(req);
       allData.geekforgeeks = geekforgeeksResult;
   
-    //   console.log(allData);
-    //   console.log(allData.leetcode);
+
 
     const data = {
         totalQuestions:0,
@@ -421,7 +457,12 @@ const geekforgeeksData = async (req) => {
         medium:0,
         hard:0,
         topics:[],
+        leetcodeRating:0,
+        codeforcesRating:0,
+        geekforgeeksRating:0,
+        codechefRating:0,
         leetcodeRankingHistory:[],
+        codeforcesRankingHistory:[],
     }
     
     //sum all
@@ -438,6 +479,7 @@ const geekforgeeksData = async (req) => {
       });
       data.totalContests+=allData.leetcode.totalContests;
       data.leetcodeRankingHistory = allData.leetcode.rankingHistory;
+      data.leetcodeRating = allData.leetcode.contestRating
     }
 
     // Codeforces Data Aggregation
@@ -461,10 +503,13 @@ const geekforgeeksData = async (req) => {
           data.topics.push({ topic: tag.topic, count: tag.count });
         }
       });
+      data.codeforcesRating=allData.codeforces.contestRating,
+      data.codeforcesRankingHistory = allData.codeforcesTotal.rankingHistory
     }
 
     // Codechef Data Aggregation
     if (allData.codechef) {
+      data.codechefRating = allData.codechef.contestRating,
       data.totalQuestions += parseInt(allData.codechef.problemsSolved) || 0;
       data.medium +=parseInt(allData.codechef.problemsSolved) || 0;
       data.totalContests += parseInt(allData.codechef.numberOfContestAttended) || 0;
@@ -472,6 +517,7 @@ const geekforgeeksData = async (req) => {
 
     // GeekforGeeks Data Aggregation
     if (allData.geekforgeeks) {
+      data.geekforgeeksRating = allData.geekforgeeks.contestRating,
       data.totalQuestions += parseInt(allData.geekforgeeks.problemsSolved) || 0;
       data.medium +=parseInt(allData.geekforgeeks.problemsSolved) || 0;
     }
