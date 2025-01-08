@@ -5,6 +5,8 @@ import BarChart from "./BarChart";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
+import Loader from "./Loader";
+import RatingChart from "./Profile/RatingChart";
 
 export default function DashHero() {
   const {currentUser} = useSelector((state)=>state.user);
@@ -19,33 +21,42 @@ export default function DashHero() {
       navigate("?tab=profile&tabProfile=platform")
     }
     
-    const fetchData =async ()=>{
-      setLoading(true);
-      setError(null);
-      
-      const res = await fetch(`/api/code/platformData/${currentUser._id}`);
-      if(res.ok){
-        const data = await res.json();
-        console.log(data);
-        setDataLoaded(true);
-        setData(data);
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const res = await fetch(`/api/code/platformData/${currentUser._id}`);
+        if (res.ok) {
+          const data = await res.json();
+          console.log(data);
+          setDataLoaded(true);
+          setData(data);
+        } else {
+          throw new Error("Failed to fetch data");
+        }
+      } catch (err) {
+        console.error(err);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
       }
-
-      else{
-        setError("Something went wrong");
-      }
-      setLoading(false);
-    }
+    };
     fetchData();
   },[currentUser]);
   return (
-    <div className="p-5">
+     loading ?
+      <>
+        <Loader />
+      </>
+      :
+      <div className="p-5">
       <div className="flex flex-col md:flex-row gap-3">
         <div className="profile h-[50vh] md:h-[100vh] w-full md:w-[25vw] bg-white border dark:bg-gray-800 dark:border-black rounded-lg">
           <Profile />
         </div>
 
-        <div className="right w-full bg-gray-100 dark:bg-gray-900 dark:border-black h-full">
+        <div className="right w-full  bg-gray-100 dark:bg-gray-900 dark:border-black h-full">
           <div className="flex flex-col md:flex-row gap-3 h-[25vh] p-5">
             <div className="question basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
               <div className="flex flex-col h-full text-center">
@@ -53,7 +64,7 @@ export default function DashHero() {
                   Total Questions
                 </h1>
                 <h1 className="basis-2/3 self-center text-4xl font-bold">
-                  {data.totalQuestions || "637"}
+                  {data.totalQuestions || "0"}
                 </h1>
               </div>
             </div>
@@ -63,7 +74,7 @@ export default function DashHero() {
                   Total Contests
                 </h1>
                 <h1 className="basis-2/3 self-center text-4xl font-bold">
-                 {data.totalContests || "25"}
+                 {data.totalContests || "0"}
                 </h1>
               </div>
             </div>
@@ -73,13 +84,13 @@ export default function DashHero() {
                   Total Active Days
                 </h1>
                 <h1 className="basis-2/3 self-center text-4xl font-bold">
-                  {data.totalActiveDays || "220"}
+                  {data.totalActiveDays || "0"}
                 </h1>
               </div>
             </div>
           </div>
-          <div className="ps flex flex-col mt-14 md:mt-0 md:flex-row h-[75vh] p-5 gap-3">
-            <div className="bg-white border flex-1 dark:bg-gray-800 dark:border-black">
+          <div className=" flex flex-col mt-14 md:mt-0 md:flex-row h-[75vh]  p-5 gap-3">
+            <div className="bg-white border p-5 flex-1 dark:bg-gray-800 dark:border-black">
               <div className="chart">
                 {dataLoaded && <DonutChart  
                   easy={data.easy} 
@@ -91,23 +102,32 @@ export default function DashHero() {
               <div className="text-center flex flex-col gap-2 mt-4">
                 <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
                   <span className="text-green-500">Easy</span>
-                  <span>{data.easy || "179"}</span>
+                  <span>{data.easy || "0"}</span>
                 </div>
                 <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
                   <span className="text-yellow-500">Medium</span>
-                  <span>{data.medium || "374"}</span>
+                  <span>{data.medium || "0"}</span>
                 </div>
                 <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
                   <span className="text-red-500">Hard</span>
-                  <span>{data.hard || "57"}</span>
+                  <span>{data.hard || "0"}</span>
                 </div>
               </div>
             </div>
-            <div className="flex-1 flex-col text-center gap-3 bg-white border dark:bg-gray-800 dark:border-black hidden md:flex">
+            <div className="flex-1 flex-col text-center gap-3 bg-white border overflow-auto scrollbar-hide dark:bg-gray-800 dark:border-black hidden md:flex">
                 <h1 className="font-semibold mt-3">DSA Topic wise AnaLysis</h1>
               { dataLoaded && <BarChart topics={data.topics}  />}
             </div>
           </div>
+          <div className=" flex flex-col md:flex-row gap-3 justify-center  ">
+          <div className="text-center h-[] w-[400px]   bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
+              { dataLoaded && <RatingChart rankingHistory={data.leetcodeRankingHistory} />}
+            </div>
+            <div className="text-center h-[] w-[400px]  bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
+              { dataLoaded && <RatingChart rankingHistory={data.leetcodeRankingHistory} />}
+            </div>
+          </div>
+          
         </div>
       </div>
     </div>

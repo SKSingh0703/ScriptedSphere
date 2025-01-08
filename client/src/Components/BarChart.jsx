@@ -1,39 +1,26 @@
 import { useState } from 'react';
 import ApexCharts from 'react-apexcharts';
 
-const BarChart = ({topics=[]}) => {
+const BarChart = ({ topics = [] }) => {
   const [showMore, setShowMore] = useState(false);
 
-  // const topics = [
-  //   { name: "Arrays", count: 100 },
-  //   { name: "Linked Lists", count: 34 },
-  //   { name: "Stacks", count: 9 },
-  //   { name: "Queues", count: 45 },
-  //   { name: "Graphs", count: 44 },
-  //   { name: "Trees", count: 17 },
-  //   { name: "Sorting", count: 77 },
-  //   { name: "Searching", count: 120 },
-  //   { name: "Dynamic Programming", count: 90 },
-  //   { name: "Backtracking", count: 30 },
-  //   // Add more topics here
-  // ];
-
   const visibleTopics = showMore ? topics : topics.slice(0, 7); // Show top 7 topics initially
+  const dynamicHeight = 50 * visibleTopics.length; // 50px per topic for dynamic height
 
   const options = {
     series: [
       {
         name: "Questions Solved",
         data: visibleTopics.map(topic => topic.count),
-      }
+      },
     ],
     chart: {
       type: "bar",
       width: "100%",
-      height: 400,
+      height: dynamicHeight, // Adjust height dynamically
       toolbar: {
         show: false,
-      }
+      },
     },
     fill: {
       opacity: 0.8,
@@ -63,13 +50,13 @@ const BarChart = ({topics=[]}) => {
     tooltip: {
       shared: true,
       intersect: false,
-      theme: "dark", 
+      theme: "dark",
       style: {
         fontFamily: "Inter, sans-serif",
         fontSize: "12px",
       },
       x: {
-        formatter: (value) => value, 
+        formatter: (value) => value,
       },
       y: {
         formatter: (value) => `${value}`, // Shows the solved questions
@@ -80,7 +67,7 @@ const BarChart = ({topics=[]}) => {
         show: true,
         style: {
           fontFamily: "Inter, sans-serif",
-          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
         },
       },
       categories: visibleTopics.map(topic => topic.topic), // Use names of visible topics
@@ -96,8 +83,8 @@ const BarChart = ({topics=[]}) => {
         show: true,
         style: {
           fontFamily: "Inter, sans-serif",
-          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
-        }
+          cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400',
+        },
       },
       min: 0,
       max: Math.max(...visibleTopics.map(topic => topic.count)), // Dynamic Y-axis max based on data
@@ -108,23 +95,22 @@ const BarChart = ({topics=[]}) => {
       padding: {
         left: 6,
         right: 2,
-        top: -20
+        top: -20,
       },
     },
   };
 
   return (
-    <div id="bar-chart">
-      <ApexCharts options={options} series={options.series} type="bar" height={400} />
-      <button 
-        onClick={() => setShowMore(!showMore)} 
-        className="p-2 bg-blue-500 text-white rounded "
+    <div id="bar-chart ">
+      <ApexCharts options={options} series={options.series} type="bar" height={dynamicHeight} />
+      <button
+        onClick={() => setShowMore(!showMore)}
+        className="p-2 bg-blue-500 text-white rounded mt-4"
       >
         {showMore ? "Show Less" : "Show More"}
       </button>
     </div>
   );
-}
+};
 
 export default BarChart;
-

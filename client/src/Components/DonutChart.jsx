@@ -8,7 +8,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 // Custom Plugin to Draw Center Text
 
 export default function DonutChart({easy,medium,hard,totalQuestions}) {
-    console.log(easy,"     ",totalQuestions);
+    // console.log(easy,"     ",totalQuestions);
+
+    if(easy===0 && medium===0 && hard===0){
+      medium=1;
+    }
     
     const centerTextPlugin = {
         id: "centerText",
@@ -35,7 +39,7 @@ export default function DonutChart({easy,medium,hard,totalQuestions}) {
     datasets: [
       {
         label: "Questions",
-        data: [easy,medium || 1,hard],
+        data: [easy,medium,hard],
         backgroundColor: [
           "rgba(74, 222, 128, 1)", // Green
           "rgba(250, 204, 21, 1)", // Yellow

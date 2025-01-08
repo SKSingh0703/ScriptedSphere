@@ -27,9 +27,11 @@ const  leetcodeData = async (req) => {
     if(response.ok){
         const data = await response.json();
         const topics =await postSkillStats(username);
-        const totalContests = await postContestStats(username);
+        const totalContest = await postContestStats(username);
         data.topics = topics || [];
-        data.totalContests = totalContests || 0;
+        data.totalContests = totalContest.totalContests || 0;
+        data.rankingHistory = totalContest.rankingHistory || [];
+
         return data;
     }
     else{
@@ -91,7 +93,6 @@ async function postSkillStats(username) {
     const data = await response.json();
 
     if (response.ok) {
-      console.log("Data received:", data);
 
       // Extract advanced, intermediate, and fundamental topics
       const advancedTopics = data?.data?.matchedUser?.tagProblemCounts?.advanced || [];
@@ -175,8 +176,11 @@ async function postContestStats(username) {
     const data = await response.json();
 
     if (response.ok) {
-      const totalContests = data.data.userContestRanking.attendedContestsCount;
-      return totalContests;
+      const da = {
+        totalContests : data.data.userContestRanking.attendedContestsCount,
+        rankingHistory : data.data.userContestRankingHistory
+      };
+      return da;
       
     } else {
       console.error("Error:", data.errors);
@@ -314,13 +318,16 @@ async function codeforcesData(req) {
 }
 
 const codechefData = async (req) => {
-    if(!req.user.codeforces){
+    if(!req.user.codechef){
         console.log("Codechef url not found");
+
         return;
     }
+    
     const username = req.user.codeforces.split("/").filter(Boolean).pop();
     try {
-      const url = `https://www.codechef.com/users/${username}`;
+      // const url = `https://www.codechef.com/users/${username}`;
+      const url = req.user.codechef;
       const { data } = await axios.get(url);
       const $ = load(data);
       
@@ -336,6 +343,7 @@ const codechefData = async (req) => {
         contestRating:contestRating!=null?contestRating[0]:0,
         numberOfContestAttended:numberOfContestAttended!=null?numberOfContestAttended[0]:0
       }
+      
 
     return result;
     } catch (error) {
@@ -395,6 +403,8 @@ const geekforgeeksData = async (req) => {
       allData.codeforcesTotal = codeforcesTotalResult;
   
       const codechefResult = await codechefData(req);
+      console.log(codechefResult);
+      
       allData.codechef = codechefResult;
   
       const geekforgeeksResult = await geekforgeeksData(req);
@@ -410,7 +420,8 @@ const geekforgeeksData = async (req) => {
         easy:0,
         medium:0,
         hard:0,
-        topics:[]
+        topics:[],
+        leetcodeRankingHistory:[],
     }
     
     //sum all
@@ -426,16 +437,17 @@ const geekforgeeksData = async (req) => {
         data.topics.push({ topic: tag.topic, count: tag.count });
       });
       data.totalContests+=allData.leetcode.totalContests;
+      data.leetcodeRankingHistory = allData.leetcode.rankingHistory;
     }
 
     // Codeforces Data Aggregation
     if (allData.codeforcesTotal) {
-      data.totalQuestions += allData.codeforcesTotal.totalSolved;
       data.totalContests += allData.codeforcesTotal.contestsAttended;
       data.easy += allData.codeforcesTotal.easy;
       data.medium += allData.codeforcesTotal.medium;
       data.hard += allData.codeforcesTotal.hard;
       data.totalActiveDays += allData.codeforcesTotal.totalActiveDays;
+      data.totalQuestions += allData.codeforcesTotal.easy + allData.codeforcesTotal.medium + allData.codeforcesTotal.hard;
 
       // Aggregating tags/topics
       // allData.codeforcesTotal.tags.forEach((tag) => {
@@ -454,12 +466,14 @@ const geekforgeeksData = async (req) => {
     // Codechef Data Aggregation
     if (allData.codechef) {
       data.totalQuestions += parseInt(allData.codechef.problemsSolved) || 0;
+      data.medium +=parseInt(allData.codechef.problemsSolved) || 0;
       data.totalContests += parseInt(allData.codechef.numberOfContestAttended) || 0;
     }
 
     // GeekforGeeks Data Aggregation
     if (allData.geekforgeeks) {
       data.totalQuestions += parseInt(allData.geekforgeeks.problemsSolved) || 0;
+      data.medium +=parseInt(allData.geekforgeeks.problemsSolved) || 0;
     }
 
     // console.log(data);
