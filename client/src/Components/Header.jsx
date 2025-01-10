@@ -38,7 +38,7 @@ export default function Header() {
     <Navbar className="relative z-50 bg-transparent ">
         <Link to="/" className="flex gap-2 self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white">
             <span>
-                <img className="h-8 w-8" src="../../public/logoSS.png " alt="" />
+                <img className="h-8 w-8" src="/logoSS.png " alt="" />
             </span>
             <div className="">
             <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 to-indigo-500 rounded-lg text-white ">Scripted</span>
@@ -47,7 +47,7 @@ export default function Header() {
         </Link>
         
         <div className="flex gap-2 md:order-2">
-            <Button className="w-12 h-10 hidden sm:inline " color="gray" onClick={() => dispatch(toggleTheme())}>
+            <Button className="w-12 h-10  sm:inline " color="gray" onClick={() => dispatch(toggleTheme())}>
                 {theme==='light' ? <FaSun /> : <MdDarkMode /> }  
             </Button>
             {currentUser ? (
