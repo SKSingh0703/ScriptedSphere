@@ -2,7 +2,7 @@ import { Button, Textarea, TextInput } from "flowbite-react";
 import { useSelector } from "react-redux";
 import { Alert } from "flowbite-react";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch,  } from "react-redux"
+import { useDispatch  } from "react-redux"
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
 import { app2 } from "../../firebase";
 
@@ -32,7 +32,7 @@ export default function BasicInfo() {
   const dispatch = useDispatch();
 
   const location = useLocation();
-  const [,setTab] = useState('');
+  const [tab,setTab] = useState('');
 
   useEffect(()=>{
     const urlParams = new URLSearchParams(location.search);
@@ -240,11 +240,11 @@ export default function BasicInfo() {
           {updateUserError}
         </Alert>
       ) }
-      {error && (
+      {/* {error && (
         <Alert color="failure" className="mt-5">
           {error}
         </Alert>
-      ) }
+      ) } */}
       </div>
     </div>
   );
