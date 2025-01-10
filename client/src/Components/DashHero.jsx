@@ -103,21 +103,21 @@ export default function DashHero() {
                 />}
               </div>
               <div className="text-center flex flex-col gap-2 mt-4">
-                <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
+                <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[100%] md:w-[50%] mx-auto h-8 rounded-lg items-center p-5">
                   <span className="text-green-500">Easy</span>
                   <span>{data.easy || "0"}</span>
                 </div>
-                <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
+                <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[100%] md:w-[50%] mx-auto h-8 rounded-lg items-center p-5">
                   <span className="text-yellow-500">Medium</span>
                   <span>{data.medium || "0"}</span>
                 </div>
-                <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[50%] mx-auto h-8 rounded-lg items-center p-5">
+                <div className="flex flex-row gap-4 justify-between bg-grey-100 border w-[100%] md:w-[50%] mx-auto h-8 rounded-lg items-center p-5">
                   <span className="text-red-500">Hard</span>
                   <span>{data.hard || "0"}</span>
                 </div>
               </div>
             </div>
-            <div className="flex flex-1 flex-col text-center gap-3 bg-white border overflow-auto scrollbar-hide dark:bg-gray-800 dark:border-black ">
+            <div className="md:flex flex-1 flex-col hidden text-center gap-3 bg-white border overflow-auto scrollbar-hide dark:bg-gray-800 dark:border-black ">
                 <h1 className="font-semibold mt-3">DSA Topic wise AnaLysis</h1>
               { dataLoaded && <BarChart topics={data.topics}  />}
             </div>
