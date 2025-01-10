@@ -70,7 +70,7 @@ export default function DasUsers() {
                   <Table.Row>
                   <Table.Cell>{new Date(user.createdAt).toLocaleString()}</Table.Cell>
                     <Table.Cell>
-                      <Avatar alt="Img" img={user.profilePicture} />
+                      <Avatar alt="Img" img={user.profilePicture || "./profile.png"} />
                     </Table.Cell>
                     <Table.Cell>{user.username}</Table.Cell>
                     <Table.Cell>{user.email}</Table.Cell>

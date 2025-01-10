@@ -15,7 +15,7 @@ export default function FooterCom() {
               <span>
                 <img
                   className="h-8 w-8"
-                  src="../../public/logoSS.png "
+                  src="./logoSS.png "
                   alt=""
                 />
               </span>

@@ -58,14 +58,14 @@ export default function Header() {
                 </Button>
             </Link>
                 <Dropdown arrowIcon={false} inline label={
-                    <Avatar  alt="user" img={currentUser.profilePicture} rounded onError={(e) => e.target.src = "../../public/profile.png"} />
+                    <Avatar  alt="user" img={currentUser.profilePicture} rounded onError={(e) => e.target.src = "./profile.png"} />
                     
                 } >
                    <Dropdown.Header>
                     {/* <span className="block text-sm ">@{currentUser.username}</span> */}
                     <span className="block text-sm font-medium truncate">Email : {currentUser.email}</span>
                     </Dropdown.Header>
-                    <Link to={'/dashboard?tab=profile'}>
+                    <Link to={'/dashboard?tab=profile&tabProfile=basicInfo'}>
                         <Dropdown.Item>Profile</Dropdown.Item>
                     </Link>
                     <Dropdown.Divider />

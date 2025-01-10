@@ -12,7 +12,7 @@ export default function Profile() {
           className=" mx-auto rounded-full h-full w-full"
           src={currentUser.profilePicture}
           alt=""
-          onError={(e) => e.target.src = "../../public/profile.png"}
+          onError={(e) => e.target.src = "./profile.png"}
         />
       </div>
       <div className="text-center font-serif ">

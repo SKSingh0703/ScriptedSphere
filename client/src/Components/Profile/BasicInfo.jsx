@@ -167,7 +167,7 @@ export default function BasicInfo() {
           <div className="flex flex-col items-center gap-4">
             <div className=" text-white rounded-full">
               <input hidden ref={filePickerRef} type="file" accept="image/*" onChange={handleImageChange} />
-              <img className="rounded-full h-20 w-20" src={imageFileUrl || currentUser.profilePicture || "../../public/profile.png"} onError={(e)=>e.target.src="../../public/profile.png"} alt="" />
+              <img className="rounded-full h-20 w-20" src={imageFileUrl || currentUser.profilePicture || "./profile.png"} onError={(e)=>e.target.src="./profile.png"} alt="" />
               {imageFileUploadingProgress && (
             <CircularProgressbar value={imageFileUploadingProgress || 0} text={`${imageFileUploadingProgress}` } 
               styles={{
