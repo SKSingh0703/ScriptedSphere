@@ -311,7 +311,7 @@ export default function DashProfile() {
     <div className="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 py-10 px-6 max-h-full ">
       <div className='min-h-screen flex flex-col md:flex-row  '>
       {/* Sidebar */}
-      <div className="md:w-52  ">
+      <div className="md:w-52 mb-5 md:mb-0 ">
         <ProfileSidebar />
       </div>
     

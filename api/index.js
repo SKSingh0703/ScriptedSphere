@@ -10,13 +10,17 @@ import postRoutes from './routes/post.route.js';
 import cors from "cors";
 import codeRoutes from './routes/code.route.js';
 
-dotenv.config();
+import path from 'path';
 
+dotenv.config();
+  
 mongoose.connect(process.env.MONGO).then((m)=>{
     console.log('DataBase Connected');
 }).catch((e)=>{
     console.log(e);
 })
+
+const ___dirname = path.resolve();
 
 const app = express();
 app.use(cookieParser());
@@ -27,6 +31,12 @@ app.use('/api/user',userRoutes);
 app.use('/api/auth',authRoutes);
 app.use('/api/post',postRoutes);
 app.use('/api/code',codeRoutes);
+
+app.use(express.static(path.join(___dirname,'/client/dist')));
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'client','dist','index.html'))
+})
 
 app.listen(3000,()=>{
     console.log("Server Running on Port 3000");

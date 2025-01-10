@@ -4,7 +4,7 @@ import { Chart as ChartJS, Title, Tooltip, Legend, CategoryScale, LinearScale, P
 
 ChartJS.register(Title, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement);
 
-const RatingChart = ({ rankingHistory }) => {
+const RatingChart = ({ rankingHistory,platform }) => {
   // Filter attended contests and prepare data
   const attendedContests = rankingHistory
     .filter(contest => contest.attended)
@@ -41,7 +41,7 @@ const RatingChart = ({ rankingHistory }) => {
       },
       title: {
         display: true,
-        text: 'LeetCode Contest Rating Over Time',
+        text: `${platform} Contest Rating Over Time`,
       },
     },
     scales: {

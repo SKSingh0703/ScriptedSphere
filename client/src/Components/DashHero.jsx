@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import Loader from "./Loader";
 import RatingChart from "./Profile/RatingChart";
+import RatingChartCodeforces from "./Profile/CodeforcesRatingContest";
 
 export default function DashHero() {
   const {currentUser} = useSelector((state)=>state.user);
@@ -50,17 +51,17 @@ export default function DashHero() {
         <Loader />
       </>
       :
-      <div className="p-5">
+      <div className="p-5 ">
       <div className="flex flex-col md:flex-row gap-3">
-        <div className="profile h-[50vh] md:h-[100vh] w-full md:w-[25vw] bg-white border dark:bg-gray-800 dark:border-black rounded-lg">
+        <div className="profile  h-[100%] md:h-[100%] max-w-4xl md:w-[25vw] bg-white border dark:bg-gray-800 dark:border-black rounded-lg">
           <Profile />
         </div>
 
-        <div className="right w-full  bg-gray-100 dark:bg-gray-900 dark:border-black h-full">
-          <div className="flex flex-col md:flex-row gap-3 h-[25vh] p-5">
-            <div className="question basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+        <div className="right flex flex-col w-full  bg-gray-100 dark:bg-gray-900 dark:border-black h-full">
+          <div className="flex flex-col md:flex-row gap-3 h-full md:min-h-[25vh] p-5">
+            <div className="question min-h-[20vh] md:basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
               <div className="flex flex-col h-full text-center">
-                <h1 className="basis-1/3 self-center text-2xl m-3 dark:text-white ">
+                <h1 className="md:basis-1/3 self-center text-2xl m-3 dark:text-white ">
                   Total Questions
                 </h1>
                 <h1 className="basis-2/3 self-center text-4xl font-bold">
@@ -68,7 +69,7 @@ export default function DashHero() {
                 </h1>
               </div>
             </div>
-            <div className="question basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+            <div className="question min-h-[20vh] basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
               <div className="flex flex-col h-full text-center">
                 <h1 className="basis-1/3 self-center text-2xl m-3">
                   Total Contests
@@ -78,9 +79,9 @@ export default function DashHero() {
                 </h1>
               </div>
             </div>
-            <div className="question basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+            <div className="question min-h-[20vh] basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
               <div className="flex flex-col h-full text-center">
-                <h1 className="basis-1/3 self-center text-2xl m-3 hidden md:block ">
+                <h1 className="basis-1/3 self-center text-2xl m-3 md:block ">
                   Total Active Days
                 </h1>
                 <h1 className="basis-2/3 self-center text-4xl font-bold">
@@ -89,7 +90,7 @@ export default function DashHero() {
               </div>
             </div>
           </div>
-          <div className=" flex flex-col mt-14 md:mt-0 md:flex-row h-[75vh]  p-5 gap-3">
+          <div className=" flex flex-col  md:flex-row h-[75vh]  p-5 gap-3">
             <div className="bg-white border p-5 flex-1 dark:bg-gray-800 dark:border-black">
               <div className="chart">
                 {dataLoaded && <DonutChart  
@@ -114,17 +115,17 @@ export default function DashHero() {
                 </div>
               </div>
             </div>
-            <div className="flex-1 flex-col text-center gap-3 bg-white border overflow-auto scrollbar-hide dark:bg-gray-800 dark:border-black hidden md:flex">
+            <div className="flex flex-1 flex-col text-center gap-3 bg-white border overflow-auto scrollbar-hide dark:bg-gray-800 dark:border-black ">
                 <h1 className="font-semibold mt-3">DSA Topic wise AnaLysis</h1>
               { dataLoaded && <BarChart topics={data.topics}  />}
             </div>
-          </div>
-          <div className=" flex flex-col md:flex-row gap-3 justify-center  ">
-          <div className="text-center h-[] w-[400px]   bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
-              { dataLoaded && <RatingChart rankingHistory={data.leetcodeRankingHistory} />}
-            </div>
-            <div className="text-center h-[] w-[400px]  bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
-              { dataLoaded && <RatingChart rankingHistory={data.leetcodeRankingHistory} />}
+          </div> 
+          <div className=" flex flex-col items-center  gap-3 justify-center  ">
+          <div className="text-center h-[] w-[50vw]   bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
+              { dataLoaded && <RatingChart platform={"Leetcode"} rankingHistory={data.leetcodeRankingHistory} />}
+            </div>   
+            <div className="text-center h-[50vh] w-[50vw]  bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
+              { dataLoaded && <RatingChartCodeforces platform={"Codeforces"} rankingHistory={data.codeforcesRankingHistory} />}
             </div>
           </div>
           

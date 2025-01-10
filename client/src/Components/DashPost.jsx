@@ -5,15 +5,18 @@ import { Checkbox, Label, Table } from "flowbite-react";
 import { FaYoutube } from "react-icons/fa";
 import { SiLeetcode } from "react-icons/si";
 import { SiGeeksforgeeks, SiCodeforces } from "react-icons/si";
+import Loader from "./Loader";
 
 export default function DashPost() {
   const { currentUser } = useSelector((state) => state.user);
   const [userPosts, setUserPosts] = useState([]);
-  console.log(userPosts);
+  // console.log(userPosts);
+  const [loading,setLoading] = useState(false);
   const [showMore,setShowMore] = useState(true);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setLoading(true);
       try {
         const res = await fetch(`/api/post/getposts`);
         // console.log(res);
@@ -26,6 +29,9 @@ export default function DashPost() {
         }
       } catch (error) {
         console.log(error);
+      }
+      finally{
+        setLoading(false);
       }
     };
     fetchPosts();
@@ -43,6 +49,9 @@ export default function DashPost() {
     } catch (error) {
       console.log(error);
     }
+  }
+  if (loading) {
+    return <Loader />
   }
 
   return (
@@ -136,7 +145,9 @@ export default function DashPost() {
           }
         </>
       ) : (
-        <p> Work in Progress ...</p>
+        <div className="">
+          <Loader />
+        </div>
       )}
     </div>
   );
