@@ -115,12 +115,12 @@ export default function College() {
         <Alert color="failure" className="mt-5">
           {updateUserError}
         </Alert>
-      ) }
-      {error && (
+      ) } 
+      {/* {error && (
         <Alert color="failure" className="mt-5">
           {error}
         </Alert>
-      ) }
+      ) } */}
       </div>
     </div>
   );

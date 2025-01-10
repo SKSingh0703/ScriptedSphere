@@ -126,11 +126,11 @@ export default function Socials() {
           {updateUserError}
         </Alert>
       ) }
-      {error && (
+      {/* {error && (
         <Alert color="failure" className="mt-5">
           {error}
         </Alert>
-      ) }
+      ) } */}
       </div>
     </div>
   );

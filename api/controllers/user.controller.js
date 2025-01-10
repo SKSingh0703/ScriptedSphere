@@ -20,7 +20,7 @@ export const updateUser = async (req,res,next) => {
     if (req.body.username) {
         if(req.user.username.length < 3 || req.body.username.length >20){
             return next(errorHandler(400,'Username must be less than 20 or greater than 2 characters'));
-        }
+        } 
         if(req.user.username.includes(' ')){
             return next(errorHandler(400, "Username cannot contain spaces"));
         }

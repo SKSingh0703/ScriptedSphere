@@ -45,6 +45,8 @@ export default function DashHero() {
     };
     fetchData();
   },[currentUser]);
+  console.log(data);
+  
   return (
      loading ?
       <>
@@ -120,13 +122,55 @@ export default function DashHero() {
               { dataLoaded && <BarChart topics={data.topics}  />}
             </div>
           </div> 
+          <div className="flex  justify-center mb-4 max-w-[96%] mx-auto dark:bg-slate-700  bg-yellow-200 flex-col md:flex-row gap-3 h-full md:min-h-[25vh] p-5 w-full">
+            {currentUser.leetcode && <div className="question min-h-[20vh] md:basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+              <div className="flex flex-col h-full text-center">
+                <h1 className="md:basis-1/3 self-center text-2xl m-3 dark:text-white ">
+                  Leetcode Rating
+                </h1>
+                <h1 className="basis-2/3 self-center text-4xl font-bold">
+                  {data.leetcodeRating || "0"}
+                </h1>
+              </div>
+            </div>}
+            {currentUser.codeforces && <div className="question min-h-[20vh] basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+              <div className="flex flex-col h-full text-center">
+                <h1 className="basis-1/3 self-center text-2xl m-3">
+                  Codeforces Rating
+                </h1>
+                <h1 className="basis-2/3 self-center text-4xl font-bold">
+                 {data.codeforcesRating || "0"}
+                </h1>
+              </div>
+            </div>}
+            {currentUser.codechef && <div className="question min-h-[20vh] basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+              <div className="flex flex-col h-full text-center">
+                <h1 className="basis-1/3 self-center text-2xl m-3 md:block ">
+                  Codechef Rating
+                </h1>
+                <h1 className="basis-2/3 self-center text-4xl font-bold">
+                  {data.codechefRating || "0"}
+                </h1>
+              </div>
+            </div>}
+            {currentUser.geekforgeeks && <div className="question min-h-[20vh] basis-1/3 bg-white border dark:bg-gray-800 dark:border-black rounded-md opacity-75">
+              <div className="flex flex-col h-full text-center">
+                <h1 className="basis-1/3 self-center text-2xl m-3 md:block ">
+                  GFG Rating
+                </h1>
+                <h1 className="basis-2/3 self-center text-4xl font-bold">
+                  {data.geekforgeeksRating || "0"}
+                </h1>
+              </div>
+            </div>}
+          </div>
           <div className=" flex flex-col items-center  gap-3 justify-center  ">
-          <div className="text-center h-[] w-[50vw]   bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
+          { currentUser.leetcode && <div className="text-center h-[] w-[50vw]   bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
               { dataLoaded && <RatingChart platform={"Leetcode"} rankingHistory={data.leetcodeRankingHistory} />}
-            </div>   
-            <div className="text-center h-[50vh] w-[50vw]  bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
+            </div>}   
+            {currentUser.codeforces && <div className="text-center h-[50vh] w-[50vw]  bg-white border  dark:bg-gray-800 dark:border-black hidden md:flex">
               { dataLoaded && <RatingChartCodeforces platform={"Codeforces"} rankingHistory={data.codeforcesRankingHistory} />}
-            </div>
+            </div>}
           </div>
           
         </div>

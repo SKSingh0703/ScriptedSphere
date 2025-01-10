@@ -232,18 +232,11 @@ async function codeforcesTotal(req) {
         const response = await axios.get(apiUrl);
         const data = response.data;
 
-        // const res = await axios.get(`https://codeforces.com/api/user.rating?handle=tourist`);
-        // const d = res.data;
-
         if (data.status !== "OK") {
             // console.log(data.comment);
             console.log("Codeforces1 error ");
             return;
         }
-        // if( d.status !== "OK"){
-        //   console.log("Codeforces fff  1 error ");
-        //   return;
-        // }
 
         const submissions = data.result;
 
@@ -302,14 +295,14 @@ async function codeforcesTotal(req) {
     
         const tagsArray = Object.entries(tagCount).map(([topic, count]) => ({ topic, count }));
         const history =await codeforcesContestHistory(handle);
-        
+        const rating = await codeforcesUserData(handle);
         const result = {
             totalSolved: solvedProblems.size,
             contestsAttended: contestsAttended.size,
             tags: tagsArray,
             totalActiveDays: activeDays.size,
             easy,medium,hard,totalSolved,
-            contestRating:data.result.rating,
+            contestRating:rating,
             rankingHistory:history
         };
 
@@ -333,7 +326,7 @@ async function codeforcesData(req) {
         const data = response.data;
 
         if (data.status !== "OK") {
-            console.log(data/comment);
+            console.log(data.comment);
             return;
         }
         
@@ -353,6 +346,25 @@ async function codeforcesData(req) {
         // console.log(error);        
         return;
     }
+}
+
+async function codeforcesUserData(handle) {
+  
+  const apiUrl = `https://codeforces.com/api/user.info?handles=${handle}`;
+  try {
+      const response = await axios.get(apiUrl);
+      const data = response.data;
+
+      if (data.status !== "OK") {
+          console.log(data.comment);
+          return;
+      }
+      
+      return data.result[0].rating;
+  } catch (error) {
+      console.log("CF 3");      
+      return;
+  }
 }
 
 const codechefData = async (req) => {
@@ -439,7 +451,7 @@ const geekforgeeksData = async (req) => {
       const codeforcesTotalResult = await codeforcesTotal(req);
       allData.codeforcesTotal = codeforcesTotalResult;
   
-      const codechefResult = await codechefData(req);
+      const codechefResult = await codechefData(req);      
       
       
       allData.codechef = codechefResult;
@@ -458,9 +470,9 @@ const geekforgeeksData = async (req) => {
         hard:0,
         topics:[],
         leetcodeRating:0,
-        codeforcesRating:0,
         geekforgeeksRating:0,
         codechefRating:0,
+        codeforcesRating:0,
         leetcodeRankingHistory:[],
         codeforcesRankingHistory:[],
     }
@@ -503,7 +515,8 @@ const geekforgeeksData = async (req) => {
           data.topics.push({ topic: tag.topic, count: tag.count });
         }
       });
-      data.codeforcesRating=allData.codeforces.contestRating,
+      // data.codeforcesRating=allData.codeforces.contestRating;
+      data.codeforcesRating=allData.codeforcesTotal.contestRating
       data.codeforcesRankingHistory = allData.codeforcesTotal.rankingHistory
     }
 

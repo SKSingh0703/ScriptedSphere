@@ -29,4 +29,25 @@ async function codeforcesContestHistory(handle){
   }
   }
 const h = "tourist";
-  codeforcesContestHistory(h);
+
+async function codeforcesUserData(handle) {
+  
+  const apiUrl = `https://codeforces.com/api/user.info?handles=${handle}`;
+  try {
+      const response = await axios.get(apiUrl);
+      const data = response.data;
+
+      if (data.status !== "OK") {
+          console.log(data.comment);
+          return;
+      }
+      console.log(data.result[0].rating);
+      
+      
+      return data.result;
+  } catch (error) {
+      console.log("CF 3");      
+      return;
+  }
+}
+  codeforcesUserData(h);
