@@ -6,9 +6,9 @@ Welcome to **Scripted Sphere**! A platform designed for students and juniors to 
 
 ## Team Details - System Reeboot
 
-- **Sachin Kumar Singh**
-- **Shreyansh Jugran**
-- **Yasir Iqbal**
+- **Sachin Kumar Singh**-BIT Mesra , Ranchi BTECH/10973/23 CSE
+- **Shreyansh Jugran**-BIT Mesra , Ranchi BTECH/10977/23 CSE
+- **Yasir Iqbal**-BIT Mesra , Ranchi IMH/10056/23 IMSC
 
 ---
 
