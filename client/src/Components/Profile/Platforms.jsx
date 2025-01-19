@@ -87,48 +87,105 @@ export default function Platforms() {
         <p className="text-sm mt-2">You can update and verify your platform details here.</p>
         </div>
       </div>
-      <div className="">        
-        <div className="mt-8 grid grid-cols-1 gap-6 ">
-            <div className="flex flex-row ml-5 items-center gap-2 p-2">
-                <TbBrandLeetcode className="align-middle" />
-                <p className="opacity-80 mr-9">Leetcode   </p>
-                <TextInput className="opacity-90 w-[40%]"id="leetcode" onChange={handleChange} defaultValue={currentUser.leetcode } placeholder="https://leetcode.com/u/JohnDoe/ " />
-            </div>
-            <div className="flex flex-row ml-5 items-center gap-2 p-2">
-                <SiCodeforces className="align-middle" />
-                <p className="opacity-80 mr-6">Codeforces  </p>
-                <TextInput className="opacity-90  w-[40%]" id="codeforces" onChange={handleChange} defaultValue={currentUser.codeforces } placeholder="https://codeforces.com/profile/JohnDoe " />
-            </div>
-            <div className="flex flex-row ml-5 items-center gap-2 p-2">
-                <SiCodechef className="align-middle" />
-                <p className="opacity-80 mr-9 "> Codechef </p>
-                <TextInput className="opacity-90 w-[40%]" id="codechef" onChange={handleChange} defaultValue={currentUser.codechef } placeholder="https://www.codechef.com/users/sksingh0703" />
-            </div>
-            <div className="flex flex-row ml-5 items-center gap-2 p-2">
-                <SiGeeksforgeeks className="align-middle" />
-                <p className="opacity-80 mr-1"> GeekforGeeks  </p>
-                <TextInput className="opacity-90 w-[40%]" id="geekforgeeks" onChange={handleChange} defaultValue={currentUser.geekforgeeks } placeholder="https://www.geeksforgeeks.org/user/sachinkumarc4bc" />
+      <div className="">
+    <div className="mt-8  grid grid-cols-1 gap-6">
+        {/* Leetcode */}
+        <div className="flex flex-row ml-5 items-center gap-2 p-2">
+            <TbBrandLeetcode className="align-middle" />
+            <p className="opacity-80 mr-9">Leetcode</p>
+            <div className="flex items-center  border border-gray-300 rounded-md">
+                <span className="bg-gray-100 text-gray-600 px-2 rounded-l-md">
+                    https://leetcode.com/u/
+                </span>
+                <input
+                    type="text"
+                    id="leetcode"
+                    className="flex-1 px-2 w-[20vw] rounded-r-md focus:outline-none opacity-70 "
+                    onChange={handleChange}
+                    defaultValue={currentUser.leetcode?.replace("https://leetcode.com/u/", "") || ""}
+                    placeholder="username"
+                />
             </div>
         </div>
-        <div className="mt-4">
-            <Button className="mx-auto w-[40%] " onClick={handleSubmit} >{loading ? 'Loading...' : 'Save'}</Button>
+
+        {/* Codeforces */}
+        <div className="flex flex-row ml-5 items-center gap-2 p-2">
+            <SiCodeforces className="align-middle" />
+            <p className="opacity-80 mr-6">Codeforces</p>
+            <div className="flex items-center  border border-gray-300 opacity-70  rounded-md">
+                <span className="bg-gray-100 text-gray-600 px-2 rounded-l-md">
+                    https://codeforces.com/profile/
+                </span>
+                <input
+                    type="text"
+                    id="codeforces"
+                    className="flex-1 px-2 w-[16vw] rounded-r-md focus:outline-none"
+                    onChange={handleChange}
+                    defaultValue={currentUser.codeforces?.replace("https://codeforces.com/profile/", "") || ""}
+                    placeholder="username"
+                />
+            </div>
         </div>
-        {uploadSuccess && (
+
+        {/* Codechef */}
+        <div className="flex flex-row ml-5 items-center gap-2  p-2">
+            <SiCodechef className="align-middle" />
+            <p className="opacity-80 mr-9">Codechef</p>
+            <div className="flex items-center  border border-gray-300 opacity-70  rounded-md">
+                <span className="bg-gray-100 text-gray-600 px-2 rounded-l-md">
+                    https://www.codechef.com/users/
+                </span>
+                <input
+                    type="text"
+                    id="codechef"
+                    className="flex-1 px-2 w-[15vw] rounded-r-md focus:outline-none"
+                    onChange={handleChange}
+                    defaultValue={currentUser.codechef?.replace("https://www.codechef.com/users/", "") || ""}
+                    placeholder="username"
+                />
+            </div>
+        </div>
+
+        {/* GeeksforGeeks */}
+        <div className="flex flex-row ml-5 items-center gap-2 p-2">
+            <SiGeeksforgeeks className="align-middle" />
+            <p className="opacity-80 mr-1">GeeksforGeeks</p>
+            <div className="flex flex-col md:flex-row items-center  border border-gray-300 opacity-70  rounded-md">
+                <span className="bg-gray-100 text-gray-600 px-2 rounded-l-md">
+                    https://www.geeksforgeeks.org/user/
+                </span>
+                <input
+                    type="text"
+                    id="geekforgeeks"
+                    className="flex-1 px-2  rounded-r-md focus:outline-none"
+                    onChange={handleChange}
+                    defaultValue={currentUser.geekforgeeks?.replace("https://www.geeksforgeeks.org/user/", "") || ""}
+                    placeholder="username"
+                />
+            </div>
+        </div>
+    </div>
+
+    {/* Save Button */}
+    <div className="mt-4">
+        <Button className="mx-auto w-[40%]" onClick={handleSubmit}>
+            {loading ? 'Loading...' : 'Save'}
+        </Button>
+    </div>
+
+    {/* Success and Error Messages */}
+    {uploadSuccess && (
         <Alert color="success" className="mt-5">
-          {uploadSuccess}
+            {uploadSuccess}
         </Alert>
-      ) }
-      {updateUserError && (
+    )}
+    {updateUserError && (
         <Alert color="failure" className="mt-5">
-          {updateUserError}
+            {updateUserError}
         </Alert>
-      ) }
-      {/* {error && (
-        <Alert color="failure" className="mt-5">
-          {error}
-        </Alert>
-      ) } */}
-      </div>
+    )}
+</div>
+
     </div>
   );
 }
