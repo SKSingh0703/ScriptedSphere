@@ -4,7 +4,7 @@ Welcome to **Scripted Sphere**! A platform designed for students and juniors to 
 
 ---
 
-## Team Details
+## Team Details - System Reeboot
 
 - **Sachin Kumar Singh**
 - **Shreyansh Jugran**
