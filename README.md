@@ -2,16 +2,6 @@
 
 Welcome to **Scripted Sphere**! A platform designed for students and juniors to effortlessly manage all their coding profiles across various platforms, track their progress, and prepare effectively for coding contests.
 
----
-
-## Team Details - SYStem Reboot
-
-- **Sachin Kumar Singh**-BIT Mesra , Ranchi BTECH/10973/23 CSE
-- **Shreyansh Jugran**-BIT Mesra , Ranchi BTECH/10976/23 CSE
-- **Yasir Iqbal**-BIT Mesra , Ranchi IMH/10056/23 IMSC
-
----
-
 ## Domain
 
 **Web Development**
