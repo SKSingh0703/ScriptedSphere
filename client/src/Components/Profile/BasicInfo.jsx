@@ -11,6 +11,8 @@ import 'react-circular-progressbar/dist/styles.css';
 
 import { updateUserStart,updateUserSuccess,updateUserFailure,updateUserEnd} from "../../redux/user/userSlice";
 import {useLocation} from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaUser, FaEnvelope, FaGlobe, FaEdit, FaCheck, FaTimes, FaUpload, FaSpinner } from "react-icons/fa";
 
 
 export default function BasicInfo() {
@@ -147,105 +149,261 @@ export default function BasicInfo() {
     }
   }
   return (
-    <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg max-w-[90%] mx-auto p-8">
-      <div className="flex flex-col md:flex-row justify-between">
-        <div className="">
-        <h1 className="text-3xl font-semibold opacity-80 text-gray-800 dark:text-white">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="bg-white dark:bg-gray-800 shadow-2xl rounded-2xl max-w-4xl mx-auto p-8 border border-gray-100 dark:border-gray-700"
+    >
+      {/* Header Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="text-center mb-8"
+      >
+        <div className="flex items-center justify-center mb-4">
+          <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full">
+            <FaUser className="text-2xl text-white" />
+          </div>
+        </div>
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
           Basic Info
         </h1>
-        <p className="mt-4 opacity-90 text-gray-600 dark:text-gray-300 leading-relaxed">
-          You can manage your details here.
+        <p className="text-lg text-gray-600 dark:text-gray-400">
+          Manage your personal details and profile information
         </p>
+      </motion.div>
+
+      {/* Profile Picture Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="flex flex-col items-center mb-8"
+      >
+        <div className="relative group">
+          <div className="relative">
+            <img 
+              className="w-32 h-32 rounded-full border-4 border-gray-200 dark:border-gray-600 shadow-lg object-cover transition-transform duration-300 group-hover:scale-105" 
+              src={imageFileUrl || currentUser.profilePicture || "./profile.png"} 
+              onError={(e)=>e.target.src="./profile.png"} 
+              alt="Profile" 
+            />
+            {imageFileUploadingProgress && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full">
+                <CircularProgressbar 
+                  value={imageFileUploadingProgress || 0} 
+                  text={`${imageFileUploadingProgress}%`} 
+                  className="w-20 h-20"
+                  styles={{
+                    path: {
+                      stroke: `rgba(59, 130, 246, ${imageFileUploadingProgress / 100})`,
+                    },
+                    text: {
+                      fill: 'white',
+                      fontSize: '12px',
+                    }
+                  }}
+                />
+              </div>
+            )}
+          </div>
+          <button
+            onClick={() => filePickerRef.current?.click()}
+            className="absolute -bottom-2 -right-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110"
+          >
+            <FaUpload className="text-sm" />
+          </button>
+          <input hidden ref={filePickerRef} type="file" accept="image/*" onChange={handleImageChange} />
         </div>
-        {/* <div className="">
-            <Button onClick={handleSubmit} className="hidden md:w-[140%] md:flex " >Save</Button>
-        </div> */}
-      </div>
-      <div className="">
-        <h3 className="text-xl mt-5 font-semibold opacity-80">Basic Details</h3>
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <div className="flex flex-col items-center gap-4">
-            <div className=" text-white rounded-full">
-              <input hidden ref={filePickerRef} type="file" accept="image/*" onChange={handleImageChange} />
-              <img className="rounded-full h-20 w-20" src={imageFileUrl || currentUser.profilePicture || "./profile.png"} onError={(e)=>e.target.src="./profile.png"} alt="" />
-              {imageFileUploadingProgress && (
-            <CircularProgressbar value={imageFileUploadingProgress || 0} text={`${imageFileUploadingProgress}` } 
-              styles={{
-                // root:{
-                //   width:'40%',
-                //   height:'40%',
-                //   position:"absolute",
-                //   top:0,left:0,
-                // },
-                path:{
-                  stroke:`rgba (62,152,199,${imageFileUploadingProgress /100})`,
-                }
-              }}
-            /> 
-          )}
-            </div>
-            <div className="flex flex-col justify-center items-center" >
-              <Button onClick={()=>filePickerRef.current.click()} >Change Pic</Button>
-              {imageFIleUploadError && 
-          <Alert color="failure" > {imageFIleUploadError} </Alert>
-        }
+        
+        <button
+          onClick={() => filePickerRef.current?.click()}
+          className="mt-4 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl"
+        >
+          <FaEdit className="text-sm" />
+          Change Picture
+        </button>
+
+        {/* Upload Status Messages */}
+        {imageFIleUploadError && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mt-4 w-full max-w-md"
+          >
+            <Alert color="failure" className="flex items-center gap-2">
+              <FaTimes className="text-red-500" />
+              {imageFIleUploadError}
+            </Alert>
+          </motion.div>
+        )}
         {imageUpladSuccess && (
-        <Alert color="success" className="mt-5 ml-5">
-          Image Uploaded successfully
-        </Alert>
-      ) }
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div>
-              <h2 className="text-lg opacity-85 font-semibold text-gray-800 dark:text-white">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mt-4 w-full max-w-md"
+          >
+            <Alert color="success" className="flex items-center gap-2">
+              <FaCheck className="text-green-500" />
+              Image uploaded successfully!
+            </Alert>
+          </motion.div>
+        )}
+      </motion.div>
+
+      {/* Form Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="space-y-8"
+      >
+        {/* Basic Details */}
+        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+            <FaUser className="text-blue-500" />
+            Basic Details
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 First Name
-              </h2>
-              <TextInput className="opacity-90 mt-3 w-[130%]" id="firstname" onChange={handleChange} defaultValue={currentUser.firstname} placeholder="Enter Name" />
+              </label>
+              <TextInput 
+                id="firstname" 
+                onChange={handleChange} 
+                defaultValue={currentUser.firstname} 
+                placeholder="Enter your first name" 
+                className="w-full"
+              />
             </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div>
-              <h2 className="text-lg opacity-85 font-semibold text-gray-800 dark:text-white">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Last Name
-              </h2>
-              <TextInput className="opacity-90 mt-3 w-[130%]" onChange={handleChange} id="lastname" defaultValue={currentUser.lastname } placeholder="Enter Title " />
+              </label>
+              <TextInput 
+                id="lastname" 
+                onChange={handleChange} 
+                defaultValue={currentUser.lastname} 
+                placeholder="Enter your last name" 
+                className="w-full"
+              />
             </div>
           </div>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-6">
-            <div className="flex flex-col">
-                <p className="opacity-80">Email</p>
-                <TextInput className="opacity-90 mt-3" id="email" onChange={handleChange} defaultValue={currentUser.email } placeholder="Enter Email " />
+
+        {/* Contact Information */}
+        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+            <FaEnvelope className="text-green-500" />
+            Contact Information
+          </h3>
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Email Address
+              </label>
+              <TextInput 
+                id="email" 
+                onChange={handleChange} 
+                defaultValue={currentUser.email} 
+                placeholder="Enter your email" 
+                className="w-full"
+              />
             </div>
-            <div className="flex flex-col ">
-                <p className="opacity-80" >Bio(Max 200 Characters)</p>
-                <Textarea rows={6} className="opacity-90 mt-3 " id="bio" onChange={handleChange} defaultValue={currentUser.bio }/>
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                Country
+              </label>
+              <TextInput 
+                id="country" 
+                onChange={handleChange} 
+                defaultValue={currentUser.country} 
+                placeholder="Enter your country" 
+                className="w-full"
+              />
             </div>
-            <div className="flex flex-col">
-                <p className="opacity-80">Country</p>
-                <TextInput className="opacity-90 mt-3" id="country" onChange={handleChange} defaultValue={currentUser.country }  />
-            </div>
+          </div>
         </div>
-        <div className="mt-4">
-            <Button onClick={handleSubmit} className="mx-auto w-[40%] " >{loading ? 'Loading...' : 'Update'}</Button>
+
+        {/* Bio Section */}
+        <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6">
+          <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-6 flex items-center gap-2">
+            <FaGlobe className="text-purple-500" />
+            About You
+          </h3>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+              Bio (Max 200 Characters)
+            </label>
+            <Textarea 
+              rows={4} 
+              id="bio" 
+              onChange={handleChange} 
+              defaultValue={currentUser.bio} 
+              placeholder="Tell us about yourself..."
+              className="w-full resize-none"
+            />
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {formdata.bio?.length || currentUser.bio?.length || 0}/200 characters
+            </p>
+          </div>
         </div>
-        {uploadSuccess && (
-        <Alert color="success" className="mt-5">
-          {uploadSuccess}
-        </Alert>
-      ) }
+      </motion.div>
+
+      {/* Action Buttons */}
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.4 }}
+        className="flex flex-col sm:flex-row gap-4 justify-center mt-8"
+      >
+        <Button 
+          onClick={handleSubmit} 
+          className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+          disabled={loading}
+        >
+          {loading ? (
+            <>
+              <FaSpinner className="animate-spin" />
+              Updating...
+            </>
+          ) : (
+            <>
+              <FaCheck />
+              Update Profile
+            </>
+          )}
+        </Button>
+      </motion.div>
+
+      {/* Status Messages */}
+      {uploadSuccess && (
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mt-6"
+        >
+          <Alert color="success" className="flex items-center gap-2">
+            <FaCheck className="text-green-500" />
+            {uploadSuccess}
+          </Alert>
+        </motion.div>
+      )}
       {updateUserError && (
-        <Alert color="failure" className="mt-5">
-          {updateUserError}
-        </Alert>
-      ) }
-      {/* {error && (
-        <Alert color="failure" className="mt-5">
-          {error}
-        </Alert>
-      ) } */}
-      </div>
-    </div>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mt-6"
+        >
+          <Alert color="failure" className="flex items-center gap-2">
+            <FaTimes className="text-red-500" />
+            {updateUserError}
+          </Alert>
+        </motion.div>
+      )}
+    </motion.div>
   );
 }

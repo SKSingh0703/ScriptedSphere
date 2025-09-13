@@ -7,58 +7,81 @@ import DasUsers from '../Components/DasUsers';
 import { useSelector } from 'react-redux';
 import DashHero from '../Components/DashHero';
 import Contest from './Contest';
+import { motion, AnimatePresence } from 'framer-motion';
+import ErrorBoundary from '../Components/ErrorBoundary';
 
 export default function DashBoard() {
-
   const location = useLocation();
-  const [tab,setTab] = useState('');
-  const {currentUser} = useSelector((state)=>state.user);
+  const [tab, setTab] = useState('');
+  const { currentUser } = useSelector((state) => state.user);
 
-  useEffect(()=>{
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromUrl = urlParams.get('tab');
     
-    if(tabFromUrl) setTab(tabFromUrl);
+    if (tabFromUrl) setTab(tabFromUrl);
+  }, [location.search]);
 
-  },[location.search]);
+  const pageVariants = {
+    initial: { opacity: 0, x: 20 },
+    in: { opacity: 1, x: 0 },
+    out: { opacity: 0, x: -20 }
+  };
+
+  const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.5
+  };
+
+  const renderContent = () => {
+    switch (tab) {
+      case 'profile':
+        return <DashProfile />;
+      case 'contests':
+        return <Contest />;
+      case 'posts':
+        return <DashPost />;
+      case 'users':
+        return currentUser.isAdmin ? <DasUsers /> : null;
+      case 'dash':
+      default:
+        return <DashHero />;
+    }
+  };
 
   return (
-    <div className='min-h-screen flex flex-col md:flex-row'>
-      {/* Sidebar */}
-      <div className="md:w-52 ">
-        <DashSidebar />
-      </div>
-      {/* Profile */}
-    {tab === 'profile' && (
-      <div className="w-full">
-        <DashProfile />
-      </div>
-    )}
-    {tab === 'contests' && (
-      <div className="w-full">
-        <Contest />
-      </div>
-    )}
+    <ErrorBoundary>
+      <div className='min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900'>
+        <div className='flex flex-col lg:flex-row min-h-screen'>
+          {/* Sidebar */}
+          <motion.div 
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="lg:w-64 w-full"
+          >
+            <DashSidebar />
+          </motion.div>
 
-    {/* Posts */}
-    {tab === 'posts' && (
-      <div className="w-full">
-        <DashPost />
+          {/* Main Content */}
+          <div className="flex-1 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={tab || 'dash'}
+                initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageVariants}
+                transition={pageTransition}
+                className="h-full"
+              >
+                {renderContent()}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </div>
-    )}
-
-    {/* Users */}
-    {currentUser.isAdmin && tab === 'users' && (
-      <div className="w-full">
-        <DasUsers />
-      </div>
-    )}
-
-    {tab === 'dash' && (
-      <div className="w-full  bg-slate-100 text-black dark:bg-slate-900 dark:text-white">
-        <DashHero />
-      </div>
-    )}
-    </div>
-  ) 
+    </ErrorBoundary>
+  );
 }

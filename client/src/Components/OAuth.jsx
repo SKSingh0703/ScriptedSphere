@@ -40,8 +40,13 @@ export default function OAuth() {
     }
 
   return (
-    <Button type="button" gradientDuoTone="" outline onClick={handleGoogleClick} >
-        <FcGoogle className="w-6 h-6 mr-2" />
+    <Button 
+      type="button" 
+      outline 
+      onClick={handleGoogleClick}
+      className="w-full border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500 transition-colors duration-200"
+    >
+        <FcGoogle className="w-5 h-5 mr-3" />
         Continue with Google
     </Button>
   )

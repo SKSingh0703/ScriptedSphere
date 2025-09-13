@@ -32,12 +32,6 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
-    firstname:{
-        type:String,
-    },
-    lastname:{
-        type:String,
-    },
     bio:{
         type:String,
     },
@@ -80,6 +74,50 @@ const userSchema = new mongoose.Schema({
     geekforgeeks:{
         type:String,
     },
+    // Cached platform data for faster dashboard loading
+    platformDataCache: {
+        leetcode: {
+            rating: { type: Number, default: 0 },
+            rankingHistory: { type: Array, default: [] },
+            problemsSolved: { type: Number, default: 0 },
+            easy: { type: Number, default: 0 },
+            medium: { type: Number, default: 0 },
+            hard: { type: Number, default: 0 },
+            topics: { type: Array, default: [] }
+        },
+        codeforces: {
+            rating: { type: Number, default: 0 },
+            rankingHistory: { type: Array, default: [] },
+            problemsSolved: { type: Number, default: 0 },
+            easy: { type: Number, default: 0 },
+            medium: { type: Number, default: 0 },
+            hard: { type: Number, default: 0 },
+            topics: { type: Array, default: [] }
+        },
+        codechef: {
+            rating: { type: Number, default: 0 },
+            rankingHistory: { type: Array, default: [] },
+            problemsSolved: { type: Number, default: 0 },
+            easy: { type: Number, default: 0 },
+            medium: { type: Number, default: 0 },
+            hard: { type: Number, default: 0 },
+            topics: { type: Array, default: [] }
+        },
+        geekforgeeks: {
+            rating: { type: Number, default: 0 },
+            rankingHistory: { type: Array, default: [] },
+            problemsSolved: { type: Number, default: 0 },
+            easy: { type: Number, default: 0 },
+            medium: { type: Number, default: 0 },
+            hard: { type: Number, default: 0 },
+            topics: { type: Array, default: [] }
+        },
+        totalQuestions: { type: Number, default: 0 },
+        totalContests: { type: Number, default: 0 },
+        totalActiveDays: { type: Number, default: 0 },
+        lastUpdated: { type: Date, default: null },
+        cacheExpiry: { type: Date, default: null }
+    }
     // questions:{
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref: 'Post',

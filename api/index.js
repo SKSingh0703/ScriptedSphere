@@ -6,6 +6,7 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js';
 import cookieParser from 'cookie-parser';
 import postRoutes from './routes/post.route.js';
+import progressRoutes from './routes/progress.route.js';
 
 import cors from "cors";
 import codeRoutes from './routes/code.route.js';
@@ -30,12 +31,13 @@ app.use(cors());
 app.use('/api/user',userRoutes);
 app.use('/api/auth',authRoutes);
 app.use('/api/post',postRoutes);
+app.use('/api/progress',progressRoutes);
 app.use('/api/code',codeRoutes);
 
 app.use(express.static(path.join(___dirname,'/client/dist')));
 
 app.get('*',(req,res)=>{
-    res.sendFile(path.join(__dirname,'client','dist','index.html'))
+    res.sendFile(path.join(___dirname,'client','dist','index.html'))
 })
   
 app.listen(3000,()=>{

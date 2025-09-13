@@ -47,62 +47,64 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex flex-col md:flex-row items-center bg-white shadow-md rounded-lg w-[90%] md:w-[80%] lg:w-[70%]">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 shadow-xl rounded-2xl w-[90%] md:w-[80%] lg:w-[70%] overflow-hidden">
         {/* Left Section: Image */}
-        <div className="hidden md:block md:w-1/2">
+        <div className="hidden md:block md:w-1/2 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900 dark:to-emerald-900">
           <img
             src="https://cdn.dribbble.com/userupload/8432950/file/original-0c14504bd291054d76548cb015dff89a.png?resize=1200x900&vertical=center"
             alt="Illustration"
-            className="w-full h-full object-cover rounded-l-lg"
+            className="w-full h-full object-cover"
           />
         </div>
 
         {/* Right Section: Form */}
-        <div className="w-full md:w-1/2 px-6 py-10">
-        <div className="flex justify-center  ">
-          <h1 className="text-2xl font-bold text-center mb-6">Welcome  </h1>
-          <SiWelcometothejungle className='mt-3 ml-2' />
+        <div className="w-full md:w-1/2 px-8 py-12">
+          <div className="text-center mb-8">
+            <div className="flex justify-center items-center mb-2">
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Welcome</h1>
+              <SiWelcometothejungle className='ml-2 text-2xl text-green-600 dark:text-green-400' />
+            </div>
+            <p className="text-gray-600 dark:text-gray-300">
+              Please enter your details to get started
+            </p>
           </div>
-          <p className="text-sm text-center text-gray-500 mb-8">
-            Please enter your details
-          </p>
           <form className="flex flex-col gap-4">
             {/* Username */}
             <div>
-              <Label value="Your Username" />
+              <Label value="Your Username" className="text-gray-700 dark:text-gray-300 font-medium" />
               <TextInput onChange={handleChange}
                 type="text"
-                placeholder="Username"
+                placeholder="Enter your username"
                 id="username"
-                className="mt-1"
+                className="mt-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:border-green-500 focus:ring-green-500 dark:focus:border-green-400 dark:focus:ring-green-400"
               />
             </div>
             {/* Email */}
             <div>
-              <Label value="Your Email" />
+              <Label value="Your Email" className="text-gray-700 dark:text-gray-300 font-medium" />
               <TextInput onChange={handleChange}
                 type="email"
-                placeholder="Email"
+                placeholder="Enter your email"
                 id="email"
-                className="mt-1"
+                className="mt-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:border-green-500 focus:ring-green-500 dark:focus:border-green-400 dark:focus:ring-green-400"
               />
             </div>
             {/* Password */}
             <div>
-              <Label value="Your Password" />
+              <Label value="Your Password" className="text-gray-700 dark:text-gray-300 font-medium" />
               <TextInput onChange={handleChange}
                 type="password"
-                placeholder="Password"
+                placeholder="Enter your password"
                 id="password"
-                className="mt-1"
+                className="mt-2 border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 focus:border-green-500 focus:ring-green-500 dark:focus:border-green-400 dark:focus:ring-green-400"
               />
             </div>
 
             {/* Sign Up Button */}
             <Button
               type="submit" onClick={handleSubmit} disabled={loading}
-              className="bg-black text-white rounded-lg py-2"
+              className="bg-gray-900 hover:bg-gray-800 dark:bg-green-600 dark:hover:bg-green-700 text-white rounded-lg py-3 mt-4 transition-colors duration-200"
             >
               {
                 loading ? (
@@ -114,9 +116,9 @@ export default function SignUp() {
           </form>
 
           {/* Footer Links */}
-          <div className="text-sm text-center mt-4">
-            <span>Have an account? </span>
-            <Link to="/sign-in" className="text-blue-500 hover:underline">
+          <div className="text-sm text-center mt-6">
+            <span className="text-gray-600 dark:text-gray-400">Have an account? </span>
+            <Link to="/sign-in" className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium hover:underline transition-colors">
               Sign in
             </Link>
           </div>

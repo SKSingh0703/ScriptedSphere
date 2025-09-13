@@ -34,9 +34,12 @@ export const signin = async (req,res,next) =>{
         if(!validPassword){
             return next(errorHandler(400,"Wrong Credentials"));
         }
-        const token = jwt.sign({id : validUser._id,isAdmin:validUser.isAdmin},process.env.JWT_SECRET);
+        const token = jwt.sign({id : validUser._id,isAdmin:validUser.isAdmin},process.env.JWT_SECRET, {expiresIn: '7d'});
         res.status(200).cookie('access_token',token,{
-            httpOnly:true
+            httpOnly:true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
         }).json(validUser);
     } catch (error) {
         return next(error);
@@ -52,9 +55,12 @@ export const google = async (req,res,next) =>{
     try {
         const user = await User.findOne({email});
         if(user){
-            const token = jwt.sign({id:user._id ,isAdmin:user.isAdmin},process.env.JWT_SECRET);
+            const token = jwt.sign({id:user._id ,isAdmin:user.isAdmin},process.env.JWT_SECRET, {expiresIn: '7d'});
             res.status(200).cookie('access_token',token,{
                 httpOnly:true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
             }).json(user);
         }
         else{
@@ -67,9 +73,12 @@ export const google = async (req,res,next) =>{
                 profilePicture:googlePhotoUrl
             })
             await newUser.save();
-            const token = jwt.sign({id:newUser._id,isAdmin:newUser.isAdmin},process.env.JWT_SECRET);
+            const token = jwt.sign({id:newUser._id,isAdmin:newUser.isAdmin},process.env.JWT_SECRET, {expiresIn: '7d'});
             res.status(200).cookie('access_token',token,{
                 httpOnly:true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
             }).json(newUser);
         }
     } catch (error) {

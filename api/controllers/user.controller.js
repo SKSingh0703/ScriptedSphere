@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import bcryptjs from 'bcryptjs'
+import { getAllDataInternal, transformToCacheFormat } from "./platform.controller.js";
 
 export  const test = (req,res)=>{
     res.json({message :"API is working"});
@@ -18,13 +19,13 @@ export const updateUser = async (req,res,next) => {
         req.body.password = bcryptjs.hashSync(req.body.password,10);
     }
     if (req.body.username) {
-        if(req.user.username.length < 3 || req.body.username.length >20){
+        if(req.body.username.length < 3 || req.body.username.length >20){
             return next(errorHandler(400,'Username must be less than 20 or greater than 2 characters'));
         } 
-        if(req.user.username.includes(' ')){
+        if(req.body.username.includes(' ')){
             return next(errorHandler(400, "Username cannot contain spaces"));
         }
-        if(!req.user.username.match(/^[a-zA-Z0-9]+$/)){
+        if(!req.body.username.match(/^[a-zA-Z0-9]+$/)){
             return next(errorHandler(400, "Username can only contain letters or numbers"));
         }
     }
@@ -34,8 +35,44 @@ export const updateUser = async (req,res,next) => {
             },{new : true});
             
             const {password , ...rest} = updatedUser._doc;
-            // console.log(rest);
             
+            // Check if platform URLs were updated
+            const platformFields = ['leetcode', 'codeforces', 'codechef', 'geekforgeeks'];
+            const hasPlatformUpdates = platformFields.some(field => req.body[field]);
+            
+            if (hasPlatformUpdates) {
+                // Trigger background platform data fetch
+                try {
+                    console.log(`Platform data update triggered for user ${req.params.userId}`);
+                    
+                    // Create a mock request object for getAllDataInternal
+                    const mockReq = {
+                        user: {
+                            id: req.params.userId,
+                            leetcode: updatedUser.leetcode,
+                            codeforces: updatedUser.codeforces,
+                            codechef: updatedUser.codechef,
+                            geekforgeeks: updatedUser.geekforgeeks
+                        }
+                    };
+                    
+                    // Fetch platform data in background
+                    getAllDataInternal(mockReq).then(async (platformData) => {
+                        if (platformData) {
+                            const cacheData = transformToCacheFormat(platformData);
+                            await User.findByIdAndUpdate(req.params.userId, { 
+                                platformDataCache: cacheData 
+                            });
+                            console.log(`Platform data cached for user ${req.params.userId}`);
+                        }
+                    }).catch(error => {
+                        console.error(`Error fetching platform data for user ${req.params.userId}:`, error);
+                    });
+                } catch (error) {
+                    console.error('Error in background platform data fetch:', error);
+                    // Don't fail the user update if platform data fetch fails
+                }
+            }
 
             res.status(200).json(rest);
 
@@ -64,8 +101,7 @@ export const deleteUser =async (req,res,next)  =>{
         res.status(200).json("User has been deleted");
         
     } catch (error) {
-        next(error
-        )
+        next(error);
     }
 }
 export const signOutUser = async (req,res,next) => {
