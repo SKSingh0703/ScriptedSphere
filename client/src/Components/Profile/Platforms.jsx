@@ -144,7 +144,7 @@ export default function Platforms() {
             />
             {currentUser.leetcode && (
               <a 
-                href={currentUser.leetcode} 
+                href={currentUser.leetcode.startsWith('http') ? currentUser.leetcode : `https://leetcode.com/u/${currentUser.leetcode}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2 text-orange-500 hover:text-orange-600 transition-colors"
@@ -183,7 +183,7 @@ export default function Platforms() {
             />
             {currentUser.codeforces && (
               <a 
-                href={currentUser.codeforces} 
+                href={currentUser.codeforces.startsWith('http') ? currentUser.codeforces : `https://codeforces.com/profile/${currentUser.codeforces}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2 text-red-500 hover:text-red-600 transition-colors"
@@ -222,7 +222,7 @@ export default function Platforms() {
             />
             {currentUser.codechef && (
               <a 
-                href={currentUser.codechef} 
+                href={currentUser.codechef.startsWith('http') ? currentUser.codechef : `https://www.codechef.com/users/${currentUser.codechef}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2 text-yellow-500 hover:text-yellow-600 transition-colors"
@@ -261,7 +261,7 @@ export default function Platforms() {
             />
             {currentUser.geekforgeeks && (
               <a 
-                href={currentUser.geekforgeeks} 
+                href={currentUser.geekforgeeks.startsWith('http') ? currentUser.geekforgeeks : `https://www.geeksforgeeks.org/user/${currentUser.geekforgeeks}`} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2 text-green-500 hover:text-green-600 transition-colors"

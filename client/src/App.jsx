@@ -12,6 +12,7 @@ import PrivateRoute from './Components/PrivateRoute'
 import OnlyAdmin from './Components/OnlyAdminPrivateRoute'
 import CreatePost from './Pages/CreatePost'
 import Contest from './Pages/Contest'
+import NotFound from './Pages/NotFound'
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
           <Route path='/create-post' element={<CreatePost />} />
         </Route>
         <Route path='/projects' element={<Projects />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
       <Footer />
     </BrowserRouter>
