@@ -1,16 +1,7 @@
-// import { Alert, Button, Modal, TextInput } from "flowbite-react";
-// import { useEffect, useRef, useState } from "react";
+
 import { useEffect, useState } from "react";
-// import { useDispatch, useSelector } from "react-redux"
-// import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
-// import { app2 } from "../../firebase";
+// import 'react-circular-progressbar/dist/styles.css';
 
-// import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-
-// import { updateUserStart,updateUserSuccess,updateUserFailure,updateUserEnd, deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutUserSuccess, signOutUserFailure, signOutUserStart } from "../../redux/user/userSlice";
-// import { BsExclamationCircle } from "react-icons/bs";
-// import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import ProfileSidebar from "./ProfileSidebar";
