@@ -8,12 +8,12 @@ export default function Contest() {
   const [contests, setContests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // all, leetcode, codeforces, atcoder
-
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchContests = async () => {
       setLoading(true);
       try {
-        const res = await fetch("/api/code/getcontests");
+        const res = await fetch(`${API_URL}/api/code/getcontests`);
         if (!res.ok) {
           return console.log("Something went wrong");
         }

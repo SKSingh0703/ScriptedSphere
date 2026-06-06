@@ -4,7 +4,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 export default function CreatePost() {
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const initialFormData = {
     topic: "",
     title: "",
@@ -30,7 +30,7 @@ export default function CreatePost() {
     e.preventDefault();
     try {
       setPublishSuccess(false);
-      const res = await fetch("/api/post/create", {
+      const res = await fetch(`${API_URL}/api/post/create`, {
         method: "post",
         headers: {
           "Content-Type": "application/json",

@@ -16,12 +16,12 @@ export default function DashPost() {
   const [showMore, setShowMore] = useState(true);
   const [filter, setFilter] = useState('all'); // all, easy, medium, hard
   const [sortBy, setSortBy] = useState('default'); // default, difficulty, topic
-
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/post/getposts`);
+        const res = await fetch(`${API_URL}/api/post/getposts`);
         if (res.ok) {
           const data = await res.json();
           setUserPosts(data.posts);
@@ -42,7 +42,7 @@ export default function DashPost() {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const res = await fetch('/api/progress/get');
+        const res = await fetch(`${API_URL}/api/progress/get`);
         if (res.ok) {
           const data = await res.json();
           setProgress(data.progress);
@@ -69,7 +69,7 @@ export default function DashPost() {
 
   const handleProgressUpdate = async (postId, completed) => {
     try {
-      const res = await fetch('/api/progress/update', {
+      const res = await fetch(`${API_URL}/api/progress/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ export default function DashPost() {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}&limit=150`);
+      const res = await fetch(`${API_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}&limit=150`);
       const data = await res.json();
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);

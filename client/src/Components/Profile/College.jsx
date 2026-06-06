@@ -12,7 +12,7 @@ import { FaGraduationCap, FaUniversity, FaAward, FaCalendarAlt, FaSave, FaCheck,
 
 export default function College() {
   const {currentUser,error,loading} = useSelector((state)=>state.user);
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [formdata,setFormData] = useState({});
   const [uploadSuccess , setUploadSuccess] = useState(null);
   const [updateUserError,setUpdateUserError] = useState(null);
@@ -51,7 +51,7 @@ export default function College() {
     
     try {
      dispatch( updateUserStart());
-     const res = await fetch(`/api/user/update/${currentUser._id}`,{
+     const res = await fetch(`${API_URL}/api/user/update/${currentUser._id}`,{
         method:'PUT',
         headers:{'Content-Type' : 'application/json'},
         body:JSON.stringify(formdata),

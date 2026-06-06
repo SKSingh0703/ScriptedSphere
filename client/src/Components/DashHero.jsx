@@ -37,14 +37,14 @@ export default function DashHero() {
   const [cacheStatus, setCacheStatus] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "info", isVisible: false });
-  
+  const API_URL = import.meta.env.VITE_API_URL;
   const fetchData = async () => {
     try {
       setLoading(true);
       setError(null);
       
       // Use the new cached endpoint
-      const res = await fetch(`/api/code/cachedPlatformData/${currentUser?._id}`);
+      const res = await fetch(`${API_URL}/api/code/cachedPlatformData/${currentUser?._id}`);
       if (res.ok) {
         const response = await res.json();
         console.log('Cached data response:', response);
@@ -83,7 +83,7 @@ export default function DashHero() {
       setError(null);
       setToast({ message: "Refreshing platform data...", type: "info", isVisible: true });
       
-      const res = await fetch('/api/code/refreshPlatformData', {
+      const res = await fetch(`${API_URL}/api/code/refreshPlatformData`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

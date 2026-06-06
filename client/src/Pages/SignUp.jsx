@@ -6,7 +6,7 @@ import { SiWelcometothejungle } from "react-icons/si";
 import OAuth from '../Components/OAuth';
 
 export default function SignUp() {
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [formdata,setFormData]= useState({});
   const [errorMessage,setErrorMessage] = useState(null);
   const [loading,setLoading] = useState(false);
@@ -26,7 +26,7 @@ export default function SignUp() {
     try {
       setErrorMessage(null);
       setLoading(true);
-      const res = await fetch('/api/auth/signup',{
+      const res = await fetch(`${API_URL}/api/auth/signup`,{
         method:'POST',
         headers:{'Content-Type' : 'application/json'},
         body:JSON.stringify(formdata),

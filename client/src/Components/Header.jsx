@@ -9,6 +9,7 @@ import { toggleTheme } from "../redux/theme/themeSlice";
 import { signOutUserFailure, signOutUserStart, signOutUserSuccess } from "../redux/user/userSlice";
 
 export default function Header() {
+    const API_URL = import.meta.env.VITE_API_URL;
     const path=useLocation().pathname;
     const {currentUser} = useSelector(state => state.user);
     
@@ -18,7 +19,7 @@ export default function Header() {
     const handleSignOut = async () => {
         try {
           dispatch(signOutUserStart());
-          const res = await fetch('/api/user/signout',{
+          const res = await fetch(`${API_URL}/api/user/signout`,{
             method:"POST"
           });
           const data= await res.json();

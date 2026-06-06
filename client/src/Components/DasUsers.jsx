@@ -10,13 +10,14 @@ export default function DasUsers() {
   const { currentUser } = useSelector((state) => state.user);
   const [users, setUsers] = useState([]);
   console.log(users);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const [showModal,setShowModal] = useState(false);
   const [deleteUserId,setdeleteUserId] = useState(null);
   useEffect(() => {
     try {
       const getUsers = async () => {
-        const res = await fetch("/api/user/getusers");
+        const res = await fetch(`${API_URL}/api/user/getusers`);
         const data = await res.json();
         console.log(data);
 
@@ -34,7 +35,7 @@ export default function DasUsers() {
   const handleDelete = async () => {
 
     try {
-      const res = await fetch(`/api/user/delete/${deleteUserId}`, { method: "DELETE" });
+      const res = await fetch(`${API_URL}/api/user/delete/${deleteUserId}`, { method: "DELETE" });
       const data = await res.json();
       setShowModal(false);
       if (res.ok) {

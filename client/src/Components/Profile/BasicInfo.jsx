@@ -16,7 +16,7 @@ import { FaUser, FaEnvelope, FaGlobe, FaEdit, FaCheck, FaTimes, FaUpload, FaSpin
 
 
 export default function BasicInfo() {
-  
+  const API_URL = import.meta.env.VITE_API_URL;
   const {currentUser,error,loading} = useSelector((state)=>state.user);
   const [imageFileUrl,setImageFileUrl] = useState(null);
 
@@ -122,7 +122,7 @@ export default function BasicInfo() {
      dispatch( updateUserStart());
      console.log(formdata);
      
-     const res = await fetch(`/api/user/update/${currentUser._id}`,{
+     const res = await fetch(`${API_URL}/api/user/update/${currentUser._id}`,{
         method:'PUT',
         headers:{'Content-Type' : 'application/json'},
         body:JSON.stringify(formdata),

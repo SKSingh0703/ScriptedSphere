@@ -119,7 +119,7 @@ export default function DashProfile() {
   //   }
   //   try {
   //    dispatch( updateUserStart());
-  //    const res = await fetch(`/api/user/update/${currentUser._id}`,{
+  //    const res = await fetch(`${API_URL}/api/user/update/${currentUser._id}`,{
   //       method:'PUT',
   //       headers:{'Content-Type' : 'application/json'},
   //       body:JSON.stringify(formdata),
