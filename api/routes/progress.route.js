@@ -4,8 +4,8 @@ import { updateProgress, getProgress, getProgressStats } from "../controllers/pr
 
 const router = express.Router();
 
-router.post('/update', verifyToken, updateProgress);
-router.get('/get', verifyToken, getProgress);
-router.get('/stats', verifyToken, getProgressStats);
+router.post('/update' , updateProgress);
+router.get('/get', getProgress);
+router.get('/stats', getProgressStats);
 
 export default router;

@@ -4,7 +4,7 @@ import { create, getPosts } from "../controllers/post.controller.js";
 
 const router = express.Router();
 
-router.post('/create',verifyToken,create);
+router.post('/create',create);
 router.get('/getposts',getPosts);
 
 export default router; 

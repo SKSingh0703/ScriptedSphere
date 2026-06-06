@@ -6,8 +6,8 @@ import { getAllData, getCachedPlatformData, refreshUserPlatformData } from "../c
 const router = express.Router();
 
 router.get("/getcontests",getContests);
-router.get("/platformData/:id",verifyToken,getAllData);
-router.get("/cachedPlatformData/:id",verifyToken,getCachedPlatformData);
-router.post("/refreshPlatformData",verifyToken,refreshUserPlatformData);
+router.get("/platformData/:id",getAllData);
+router.get("/cachedPlatformData/:id",getCachedPlatformData);
+router.post("/refreshPlatformData",refreshUserPlatformData);
 
 export default router;
