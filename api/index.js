@@ -27,13 +27,7 @@ const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(
-    cors({
-      origin: [
-        "http://localhost:5173",
-        "https://scripted-sphere-txsf.vercel.app",
-      ],
-      credentials: true,
-    })
+    cors()
   ); 
 
 app.use('/api/user',userRoutes);
