@@ -59,7 +59,7 @@ export const google = async (req,res,next) =>{
             res.status(200).cookie('access_token',token,{
                 httpOnly:true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'none',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
             }).json(user);
         }
@@ -77,7 +77,7 @@ export const google = async (req,res,next) =>{
             res.status(200).cookie('access_token',token,{
                 httpOnly:true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'none',
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
             }).json(newUser);
         }
