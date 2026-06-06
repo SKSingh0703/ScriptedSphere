@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Alert } from "flowbite-react";
 import { useEffect,useState } from "react";
 import { useDispatch,  } from "react-redux";
-import 'react-circular-progressbar/dist/styles.css';
+// import 'react-circular-progressbar/dist/styles.css';
 
 import { updateUserStart,updateUserSuccess,updateUserFailure,updateUserEnd} from "../../redux/user/userSlice";
 import {useLocation} from "react-router-dom";
