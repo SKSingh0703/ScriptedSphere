@@ -20,7 +20,8 @@ export default function Header() {
         try {
           dispatch(signOutUserStart());
           const res = await fetch(`${API_URL}/api/user/signout`,{
-            method:"POST"
+            method:"POST",
+            credentials:"include"
           });
           const data= await res.json();
           if(!res.ok){

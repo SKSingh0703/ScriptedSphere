@@ -57,6 +57,7 @@ export default function Socials() {
         method:'PUT',
         headers:{'Content-Type' : 'application/json'},
         body:JSON.stringify(formdata),
+        credentials:"include"
      })
      const data = await res.json();
      if(!res.ok){

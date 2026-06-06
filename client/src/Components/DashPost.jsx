@@ -21,7 +21,9 @@ export default function DashPost() {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/post/getposts`);
+        const res = await fetch(`${API_URL}/api/post/getposts`, {
+          credentials: "include",
+        });
         if (res.ok) {
           const data = await res.json();
           setUserPosts(data.posts);
@@ -42,7 +44,9 @@ export default function DashPost() {
   useEffect(() => {
     const fetchProgress = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/progress/get`);
+        const res = await fetch(`${API_URL}/api/progress/get`, {
+          credentials: "include",
+        });
         if (res.ok) {
           const data = await res.json();
           setProgress(data.progress);
@@ -75,6 +79,7 @@ export default function DashPost() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ postId, completed }),
+        credentials:"include"
       });
 
       if (res.ok) {
@@ -103,7 +108,9 @@ export default function DashPost() {
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const res = await fetch(`${API_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}&limit=150`);
+      const res = await fetch(`${API_URL}/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}&limit=150`, {
+        credentials: "include",
+      });
       const data = await res.json();
       if (res.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);

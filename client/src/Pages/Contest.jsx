@@ -13,7 +13,9 @@ export default function Contest() {
     const fetchContests = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`${API_URL}/api/code/getcontests`);
+        const res = await fetch(`${API_URL}/api/code/getcontests`, {
+          credentials: "include",
+        });
         if (!res.ok) {
           return console.log("Something went wrong");
         }

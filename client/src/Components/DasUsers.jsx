@@ -17,7 +17,9 @@ export default function DasUsers() {
   useEffect(() => {
     try {
       const getUsers = async () => {
-        const res = await fetch(`${API_URL}/api/user/getusers`);
+        const res = await fetch(`${API_URL}/api/user/getusers`, {
+          credentials: "include",
+        });
         const data = await res.json();
         console.log(data);
 
@@ -35,7 +37,7 @@ export default function DasUsers() {
   const handleDelete = async () => {
 
     try {
-      const res = await fetch(`${API_URL}/api/user/delete/${deleteUserId}`, { method: "DELETE" });
+      const res = await fetch(`${API_URL}/api/user/delete/${deleteUserId}`, { method: "DELETE" , credentials:"include" });
       const data = await res.json();
       setShowModal(false);
       if (res.ok) {

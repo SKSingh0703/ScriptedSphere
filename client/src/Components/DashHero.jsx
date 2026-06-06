@@ -44,7 +44,9 @@ export default function DashHero() {
       setError(null);
       
       // Use the new cached endpoint
-      const res = await fetch(`${API_URL}/api/code/cachedPlatformData/${currentUser?._id}`);
+      const res = await fetch(`${API_URL}/api/code/cachedPlatformData/${currentUser?._id}`,{
+        credentials: "include",
+      });
       if (res.ok) {
         const response = await res.json();
         console.log('Cached data response:', response);
@@ -88,6 +90,7 @@ export default function DashHero() {
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials:"include"
       });
       
       if (res.ok) {
